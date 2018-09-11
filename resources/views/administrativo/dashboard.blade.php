@@ -134,7 +134,7 @@
                   <!-- checkbox -->
                   {{-- <input type="checkbox" value=""> --}}
                   <!-- todo text -->
-                  <span class="text">Nome do usuário</span>
+                  <span class="text">Titulo do poco</span>
                   <!-- Emphasis label -->
                   <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
                   <!-- General tools such as edit or delete-->
@@ -149,7 +149,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   {{-- <input type="checkbox" value=""> --}}
-                  <span class="text">Nome do usuário</span>
+                  <span class="text">Titulo do poco</span>
                   <small class="label label-info"><i class="fa fa-clock-o"></i> 4 horas</small>
                   <div class="tools">
                     {{-- <i class="fa fa-edit"></i>
@@ -162,7 +162,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   {{-- <input type="checkbox" value=""> --}}
-                  <span class="text">Nome do usuário</span>
+                  <span class="text">Titulo do poco</span>
                   <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 dia</small>
                   <div class="tools">
                     {{-- <i class="fa fa-edit"></i>
@@ -175,7 +175,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   {{-- <input type="checkbox" value=""> --}}
-                  <span class="text">Nome do usuário</span>
+                  <span class="text">Titulo do poco</span>
                   <small class="label label-success"><i class="fa fa-clock-o"></i> 3 dias</small>
                   <div class="tools">
                     {{-- <i class="fa fa-edit"></i>
@@ -188,7 +188,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   {{-- <input type="checkbox" value=""> --}}
-                  <span class="text">Nome do usuário</span>
+                  <span class="text">Titulo do poco</span>
                   <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 semana</small>
                   <div class="tools">
                     {{-- <i class="fa fa-edit"></i>
@@ -201,7 +201,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   {{-- <input type="checkbox" value=""> --}}
-                  <span class="text">Nome do usuário</span>
+                  <span class="text">Titulo do poco</span>
                   <small class="label label-default"><i class="fa fa-clock-o"></i> 1 mês</small>
                   <div class="tools">
                     {{-- <i class="fa fa-edit"></i>
