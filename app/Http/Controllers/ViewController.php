@@ -26,7 +26,7 @@ class ViewController extends Controller
         return view('administrativo.login');
     }
 
-    public function userDashboard()
+    public function systemDashboard()
     {   
         return view('administrativo.dashboard');
     }

@@ -14,25 +14,15 @@ class Zone extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable, SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'depth', 'rop', 'rpm', 'wob', 'tflo', 'stor', 'mse', 'mi'
     ];
 
     protected $hidden = [
-        'user_id', 'company_id', 'country_id', 'status'
+        'well_id', 'status'
     ];
 
-    public function country()
+    public function well()
     {
-        return $this->belongsTo('App\Country', 'country_id');
-    }
-
-    public function company()
-    {
-        return $this->belongsTo('App\Company', 'company_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\Well', 'well_id');
     }
 }

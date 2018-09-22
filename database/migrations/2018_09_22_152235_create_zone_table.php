@@ -22,8 +22,6 @@ class CreateZoneTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->index('user_id');
             $table->string('name', 255);
-            $table->string('title', 255);
-            $table->text('description');
             $table->string('status', 20);
             $table->timestamps();
             $table->softDeletes();

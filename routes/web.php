@@ -17,7 +17,6 @@ Route::get('/','ViewController@index')->name('index');
 Route::get('/adm','ViewController@admin')->name('admin');
 Route::post('/adm/login','AdminController@login')->name('admin.login');
 
-Route::get('/user/dashboard','ViewController@userDashboard')->name('user.dashboard');
 Route::get('/user/poco/cadastrar','ViewController@userCadastrarPoco')->name('user.cadastrar.poco');
 Route::get('/user/pocos','ViewController@userPocos')->name('user.pocos');
 Route::get('/user/poco','ViewController@userPoco')->name('user.poco');
@@ -25,8 +24,10 @@ Route::get('/user/usuarios/ativos','ViewController@userUsersAtivos')->name('user
 Route::get('/user/usuarios/inativos','ViewController@userUsersInativos')->name('user.users.inativos');
 Route::get('/user/usuario','ViewController@userUsersPerfil')->name('user.dados.user.criado');
 
-// Route::middleware(['admin'])->prefix('adm')->group(function(){
+Route::middleware(['user'])->prefix('system')->group(function(){
+    Route::get('/dashboard','ViewController@systemDashboard')->name('dashboard');
 
+});
 // 	Route::get('/perfil','ViewAdminController@perfil')->name('admin.perfil');
 // 	Route::post('/perfil/alterar/dados','AdminController@alterarDados')->name('admin.alterar.dados');
 // 	Route::post('/perfil/alterar/senha','AdminController@alterarSenha')->name('admin.alterar.senha');

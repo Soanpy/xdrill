@@ -41,6 +41,20 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        \Illuminate\Support\Facades\DB::table('users')->insert([
+            [
+                'name'=>'Admin',
+                'username' => 'administrador',
+                'email' => 'admin@admin.com',
+                'password'=>bcrypt('xDrill123!'),
+                'phone' => '+5527997484254',
+                'cellphone' => '+5527997484254',
+                'type' => 'ADMIN',
+                'status' => 'ACTIVE',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+        ]);
     }
 
     /**

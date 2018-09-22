@@ -17,9 +17,9 @@ class User
     {
         if(!Auth::user()){
 			return redirect()->route('user');                
-        }elseif(Auth::user()->tipo != 'USER'){
+        }elseif(Auth::user()->tipo != 'USER' && Auth::user()->tipo != 'ADMIN'){
             Auth::logout();
-			return redirect()->route('user');
+			return redirect()->route('index');
 		}
         return $next($request);
     }
