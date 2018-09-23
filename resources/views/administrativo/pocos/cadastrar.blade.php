@@ -18,12 +18,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Formulário de cadastro
+            Register Form
             {{-- <small>Preview</small> --}}
         </h1>
         <ol class="breadcrumb">
             {{-- <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li> --}}
-            <li class="active"><a href="#">Cadastro de Poço</a></li>
+            <li class="active"><a href="#">Register Well</a></li>
             {{-- <li class="active">General Elements</li> --}}
         </ol>
         </section>
@@ -33,41 +33,59 @@
         <div class="row">
             <!-- left column -->
             <div class="col-md-8 col-md-offset-2">
+                @if ($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+                @endif
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                    <h3 class="box-title">Cadastro de poço</h3>
+                    <h3 class="box-title">Register new well</h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="tituloPoco">*Titulo</label>
-                            <input type="text" name="titulo" class="form-control" id="tituloPoco" placeholder="Coloque o nome do poço">
+                    <form role="form" method="POST" action="{{route('register.well')}}">
+                        @csrf
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="wellTitle">*Title</label>
+                                <input type="text" required name="title" class="form-control" id="wellTitle" placeholder="Well title">
+                            </div>
+                            <div class="form-group">
+                                <label for="wellName">*Name</label>
+                                <input type="text" required name="name" class="form-control" id="wellName" placeholder="Well name">
+                            </div>
+                            <div class="form-group">
+                                <label for="wellDescription">*Description</label>
+                                <textarea name="description" required id="wellDescription" class="form-control" cols="30" rows="10" placeholder="Write something describing the new well being registered"></textarea>
+                                {{-- <input type="text" class="form-control" id="descricaoPoco" placeholder="Descricao"> --}}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Empresa</label>
+                                <input type="text" class="form-control" disabled placeholder="{{Auth::user()->company?Auth::user()->company->name:'No company'}}">
+                            </div>
+                            {{-- <div class="form-group">
+                                <label for="wellPhoto">Representative photo</label>
+                                <input type="file" id="wellPhoto">
+                
+                                <p class="help-block">Example block-level help text here.</p>
+                            </div> --}}
+                            {{-- <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Check me out
+                                </label>
+                            </div> --}}
                         </div>
-                        <div class="form-group">
-                            <label for="descricaoPoco">*Descrição</label>
-                            <textarea name="descricao" id="descricaoPoco" class="form-control" cols="30" rows="10">Escreva a descrição do poço</textarea>
-                            {{-- <input type="text" class="form-control" id="descricaoPoco" placeholder="Descricao"> --}}
-                        </div>
-                        <div class="form-group">
-                            <label for="fotoPoco">Foto representativa do poço</label>
-                            <input type="file" id="fotoPoco">
-            
-                            {{-- <p class="help-block">Example block-level help text here.</p> --}}
-                        </div>
-                        {{-- <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Check me out
-                            </label>
-                        </div> --}}
-                    </div>
-                    <!-- /.box-body -->
+                        <!-- /.box-body -->
         
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
                     </form>
                 </div>
     

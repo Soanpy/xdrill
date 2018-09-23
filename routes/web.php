@@ -28,6 +28,8 @@ Route::get('/user/usuario','ViewController@userUsersPerfil')->name('user.dados.u
 
 Route::middleware(['user'])->prefix('system')->group(function(){
     Route::get('/dashboard','ViewController@systemDashboard')->name('dashboard');
+
+    Route::post('/register/well','UserController@registerWell')->name('register.well');
 });
 // 	Route::get('/perfil','ViewAdminController@perfil')->name('admin.perfil');
 // 	Route::post('/perfil/alterar/dados','AdminController@alterarDados')->name('admin.alterar.dados');

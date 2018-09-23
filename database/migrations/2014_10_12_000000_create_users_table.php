@@ -54,6 +54,18 @@ class CreateUsersTable extends Migration
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            [
+                'name'=>'Yuri',
+                'username' => 'soapin',
+                'email' => 'yuri@gmail.com',
+                'password'=>bcrypt('123456'),
+                'phone' => '+5527997484254',
+                'cellphone' => '+5527997484254',
+                'type' => 'USER',
+                'status' => 'ACTIVE',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ]);
     }
 

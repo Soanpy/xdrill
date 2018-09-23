@@ -23,8 +23,6 @@ class CreateAnalysisTable extends Migration
             $table->float('stor')->nullable();
             $table->float('mse')->nullable();
             $table->float('mi')->nullable();
-            $table->integer('data_id')->unsigned();
-            $table->index('data_id');
             $table->string('status',20);
             $table->timestamps();
             $table->softDeletes();

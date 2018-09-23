@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Categoria;
 use App\Produto;
 use App\User;
 use App\Telemetria;
 use App\Orcamento;
 use App\Segmento;
+
 use App\Http\Controllers\UserController;
+
 
 class ViewController extends Controller
 {
@@ -31,7 +35,26 @@ class ViewController extends Controller
 
     public function systemDashboard()
     {   
-        return view('administrativo.dashboard');
+        $user = Auth::user();
+        $wells = $user->wells;
+        $analyses = 0;
+        $analyses_week = array();
+        if(count($wells) > 0){
+            foreach($wells as $well){
+                if(count($well->analyses) > 0){
+                    $analyses += count($well->analyses);
+                    foreach($well->analyses as $analysis){
+                        if(strtotime('now') < strtotime('+7days', strtotime($analysis->created_at))){
+                            $analyses_week[] = $analysis;
+                        }
+                    }
+                }
+            }
+        }
+        return view('administrativo.dashboard')->with([
+            'analyses' => $analyses,
+            'analyses_week' => $analyses_week
+        ]);
     }
 
     public function userCadastrarPoco()

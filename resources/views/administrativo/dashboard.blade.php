@@ -35,13 +35,13 @@
     <section class="content">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-4 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                <h3>1</h3>
+                <h3>{{count(Auth::user()->wells)}}</h3>
     
-                <p>Total de poços</p>
+                <p>Number of wells</p>
                 </div>
                 <div class="icon">
                 <i class="ion ion-cube"></i>
@@ -50,13 +50,13 @@
             </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-4 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                <h3>53</h3>
+                <h3>{{$analyses}}</h3>
     
-                <p>Análises</p>
+                <p>Analyses</p>
                 </div>
                 <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -65,26 +65,26 @@
             </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            {{--<div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                <h3>2</h3>
-                <p>Total de Usuários na Empresa</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-person-add"></i>
-                </div>
-            </div>
-            </div>
+              {{-- <div class="small-box bg-yellow">
+                  <div class="inner">
+                  <h3>2</h3>
+                  <p>Total de Usuários na Empresa</p>
+                  </div>
+                  <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                  </div>
+              </div>
+            </div>--}}
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-4 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-red">
 
                 <div class="inner">
-                <h3>65</h3>
-                <p>Novas analises na semana</p>
+                <h3>{{count($analyses_week)}}</h3>
+                <p>New analyses this week</p>
                 </div>
                 <div class="icon">
                 <i class="ion ion-pie-graph"></i>
@@ -119,41 +119,43 @@
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">Últimas Análises</h3>
+              <h3 class="box-title">Last 7 days analyses</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
-                <li>
-                  <!-- drag handle -->
-                  <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  {{-- <input type="checkbox" value=""> --}}
-                  <!-- todo text -->
-                  <span class="text">Titulo do poco</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    {{-- <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i> --}}
-                  </div>
-                </li>
-                <li>
+                @foreach($analyses_week as $analysis)
+                  <li>
+                    <!-- drag handle -->
+                    <span class="handle">
+                          <i class="fa fa-ellipsis-v"></i>
+                          <i class="fa fa-ellipsis-v"></i>
+                        </span>
+                    <!-- checkbox -->
+                    {{-- <input type="checkbox" value=""> --}}
+                    <!-- todo text -->
+                    <span class="text">{{$analysis->well->name}}</span>
+                    <!-- Emphasis label -->
+                    <small class="label label-primary"><i class="fa fa-clock-o"></i>{{date('d/m/Y', strtotime($analysis->created_at))}}</small>
+                    <!-- General tools such as edit or delete-->
+                    <div class="tools">
+                      {{-- <i class="fa fa-edit"></i>
+                      <i class="fa fa-trash-o"></i> --}}
+                    </div>
+                  </li>
+                @endforeach
+                {{-- <li>
                       <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-                  {{-- <input type="checkbox" value=""> --}}
+                  <input type="checkbox" value="">
                   <span class="text">Titulo do poco</span>
                   <small class="label label-info"><i class="fa fa-clock-o"></i> 4 horas</small>
                   <div class="tools">
-                    {{-- <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i> --}}
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
                   </div>
                 </li>
                 <li>
@@ -161,12 +163,12 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-                  {{-- <input type="checkbox" value=""> --}}
+                  <input type="checkbox" value="">
                   <span class="text">Titulo do poco</span>
                   <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 dia</small>
                   <div class="tools">
-                    {{-- <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i> --}}
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
                   </div>
                 </li>
                 <li>
@@ -174,12 +176,12 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-                  {{-- <input type="checkbox" value=""> --}}
+                  <input type="checkbox" value="">
                   <span class="text">Titulo do poco</span>
                   <small class="label label-success"><i class="fa fa-clock-o"></i> 3 dias</small>
                   <div class="tools">
-                    {{-- <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i> --}}
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
                   </div>
                 </li>
                 <li>
@@ -187,12 +189,12 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-                  {{-- <input type="checkbox" value=""> --}}
+                  <input type="checkbox" value="">
                   <span class="text">Titulo do poco</span>
                   <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 semana</small>
                   <div class="tools">
-                    {{-- <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i> --}}
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
                   </div>
                 </li>
                 <li>
@@ -200,14 +202,14 @@
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
-                  {{-- <input type="checkbox" value=""> --}}
+                  <input type="checkbox" value="">
                   <span class="text">Titulo do poco</span>
                   <small class="label label-default"><i class="fa fa-clock-o"></i> 1 mês</small>
                   <div class="tools">
-                    {{-- <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i> --}}
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
                   </div>
-                </li>
+                </li> --}}
               </ul>
             </div>
            

@@ -14,7 +14,7 @@ class Update1UsersTable extends Migration
     public function up()
     {
         Schema::table('users', function(Blueprint $table){
-            $table->integer('company_id')->unsigned()->nullable();
+            $table->integer('company_id')->unsigned()->nullable()->default(0);
             $table->index('company_id');
         });
     }

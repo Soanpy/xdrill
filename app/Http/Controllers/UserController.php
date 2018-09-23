@@ -91,4 +91,40 @@ class UserController extends Controller
             return redirect()->back()->with('danger','Wrong password, try again!');
         }
     }
+
+
+    public function registerWell(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'title' => 'required|string',
+            'description' => 'required',
+        ]);
+
+        try{
+
+            $well = new Well;
+            $well->description = $request->description;
+            $well->title = $request->title;
+            $well->name = $request->name;
+            $well->company_id = Auth::user()->company_id;
+            $well->user_id = Auth::user()->id;
+            $well->status = 'ACTIVE';
+            $well->save();
+            
+            return redirect()->back()->with('success', 'Well successfully created!');
+
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = 0;
+            $telemetria->method = 'registerWell';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
+
 }

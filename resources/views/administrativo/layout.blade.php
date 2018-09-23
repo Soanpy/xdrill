@@ -42,9 +42,9 @@
           <img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ Auth::user()->name }}</p>
           {{-- <p>Nome X</p> --}}
-          {{-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> --}}
+          <p>{{ Auth::user()->name }}</p>
+          <a href="#"><i class="fa fa-circle text-warning"></i>{{Auth::user()->company?Auth::user()->company->name:"No company"}}</a>
         </div>
       </div>
 
@@ -109,6 +109,7 @@
     @endif
 
     @yield('main')
+    
   </div>
   <!-- /.content-wrapper -->
 

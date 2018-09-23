@@ -27,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token', 'status', 'company_id', 'email_verified_at', 'deleted_at', 'type'
     ];
+
+    public function company()
+    {
+        return $this->belongsTo('App\Company', 'company_id');
+    }
+
+    public function wells()
+    {
+        return $this->hasMany('App\Well', 'user_id');
+    }
 }

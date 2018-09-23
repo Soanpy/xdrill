@@ -3,14 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Well extends Model implements AuthenticatableContract, AuthorizableContract
+class Well extends Model
 {
-    use Authenticatable, Authorizable, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'name', 'title', 'description'
@@ -28,5 +25,10 @@ class Well extends Model implements AuthenticatableContract, AuthorizableContrac
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function analyses()
+    {
+        return $this->hasMany('App\WellAnalysis', 'well_id');
     }
 }
