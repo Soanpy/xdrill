@@ -14,8 +14,10 @@
 
 Route::get('/','ViewController@index')->name('index');
 
-Route::get('/adm','ViewController@admin')->name('admin');
-Route::post('/adm/login','AdminController@login')->name('admin.login');
+Route::get('/login','ViewController@admin')->name('login.page');
+Route::post('/login','UserController@login')->name('login');
+Route::get('/register','ViewController@register')->name('register.page');
+Route::post('/register','UserController@register')->name('register');
 
 Route::get('/user/poco/cadastrar','ViewController@userCadastrarPoco')->name('user.cadastrar.poco');
 Route::get('/user/pocos','ViewController@userPocos')->name('user.pocos');
@@ -26,7 +28,6 @@ Route::get('/user/usuario','ViewController@userUsersPerfil')->name('user.dados.u
 
 Route::middleware(['user'])->prefix('system')->group(function(){
     Route::get('/dashboard','ViewController@systemDashboard')->name('dashboard');
-
 });
 // 	Route::get('/perfil','ViewAdminController@perfil')->name('admin.perfil');
 // 	Route::post('/perfil/alterar/dados','AdminController@alterarDados')->name('admin.alterar.dados');

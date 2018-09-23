@@ -23,7 +23,8 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
-        $this->validate($request, [
+        
+        $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
@@ -31,14 +32,14 @@ class UserController extends Controller
             'phone' => 'required|string',
             'cellphone' => 'required|string',
             'company_id' => 'required|numeric',
-            'street' => 'string',
-            'number' => 'string',
-            'district' => 'string',
-            'complement' => 'string',
-            'city' => 'string',
-            'state' => 'string',
-            'country' => 'string',
-            'zip' => 'string'
+            'street' => 'nullable|string',
+            'number' => 'nullable|numeric',
+            'district' => 'nullable|string',
+            'complement' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country' => 'nullable|string',
+            'zip' => 'nullable|numeric'
         ]);
 
         try{
@@ -63,17 +64,31 @@ class UserController extends Controller
             $user->zip = $request->zip;
             $user->save();
 
-            return route('dashboard')->with('success', 'You have been successfully registered and logged in!');
+            return redirect()->route('login.page')->with('success', 'Account successfully created!');
 
         }catch(\Exception $e){
-            $telemetria = new Telemetria;
+            $telemetria = new Telemetry;
             $telemetria->user_id = 0;
             $telemetria->method = 'register';
             $telemetria->controller = 'UserController';
             $telemetria->description = $e->getMessage();
             $telemetria->save();
 
-            return redirect()->back()->with(['danger' => 'Ops, ocorreu um erro com sua solicitação!']);
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if(\Auth::attempt(['email' => $request->email,'password' => $request->password,'status' => 'ACTIVE','type' => 'USER']) ){
+            return redirect()->route('dashboard');
+        }else{
+            return redirect()->back()->with('danger','Wrong password, try again!');
         }
     }
 }

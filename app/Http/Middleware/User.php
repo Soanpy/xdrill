@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Support\Facades\Auth;
 use Closure;
 
 class User
@@ -16,8 +17,8 @@ class User
     public function handle($request, Closure $next)
     {
         if(!Auth::user()){
-			return redirect()->route('user');                
-        }elseif(Auth::user()->tipo != 'USER' && Auth::user()->tipo != 'ADMIN'){
+			return redirect()->route('index');                
+        }elseif(Auth::user()->type != 'USER' && Auth::user()->type != 'ADMIN'){
             Auth::logout();
 			return redirect()->route('index');
 		}

@@ -16,14 +16,17 @@ class ViewController extends Controller
 
     public function index()
     {   
-        return redirect()->route('admin');
-        $segmentos = Segmento::where('status','ATIVO')->get();
-    	return view('site.index', compact('segmentos'));
+    	return view('administrativo.login');
     }
 
     public function admin()
     {
         return view('administrativo.login');
+    }
+
+    public function register()
+    {   
+    	return view('administrativo.register');
     }
 
     public function systemDashboard()

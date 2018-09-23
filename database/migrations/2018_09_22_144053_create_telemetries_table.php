@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTelemetryTable extends Migration
+class CreateTelemetriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTelemetryTable extends Migration
      */
     public function up()
     {
-        Schema::create('telemetry', function (Blueprint $table) {
+        Schema::create('telemetries', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->index('user_id');
@@ -32,6 +32,6 @@ class CreateTelemetryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('telemetry');
+        Schema::dropIfExists('telemetries');
     }
 }

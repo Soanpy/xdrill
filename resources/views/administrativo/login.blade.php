@@ -23,16 +23,36 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>GSA</b></a>
+    <a href="#"><b>xDrill</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Painel administrativo</p>
-
-    <form action="{{ route('admin.login') }}" method="post">
+    <p class="login-box-msg">Login Panel</p>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('danger'))
+        <div class="alert alert-danger">
+          <ul>
+            <li>{{ session('danger') }}</li>
+          </ul>
+        </div>
+    @endif
+    @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
+    <form action="{{ route('login') }}" method="post">
         {{csrf_field()}}
       <div class="form-group has-feedback">
-        <input type="email" name="username" class="form-control" placeholder="Email">
+        <input type="email" name="email" class="form-control" placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -40,9 +60,11 @@
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
-        
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+          <p>Don't have an account yet? <a href="{{route('register.page')}}">Create one</a></p>
+        </div>
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
         </div>
 
       </div>

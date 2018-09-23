@@ -42,8 +42,8 @@
           <img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          {{-- <p>{{ Auth::user()->nome }}</p> --}}
-          <p>Nome X</p>
+          <p>{{ Auth::user()->name }}</p>
+          {{-- <p>Nome X</p> --}}
           {{-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> --}}
         </div>
       </div>
@@ -52,42 +52,42 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
-        <li><a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
-        <li><a href="#"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
+        <li><a href="#"><i class="fa fa-user"></i> <span>Profile</span></a></li>
 
         {{-- <li><a href="#"><i class="fa fa-users"></i> <span>Contatos</span></a></li> --}}
 
          <li class="treeview">
           <a href="#">
-            <i class="fa fa-cubes"></i> <span>POÇOS</span>
+            <i class="fa fa-cubes"></i> <span>Wells</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('user.cadastrar.poco') }}"><i class="fa fa-circle-o"></i> Cadastrar novo poço</a></li>
-            <li><a href="{{ route('user.pocos') }}"><i class="fa fa-circle-o"></i> Poços cadastrados</a></li>
+            <li><a href="{{ route('user.cadastrar.poco') }}"><i class="fa fa-circle-o"></i> Register new well</a></li>
+            <li><a href="{{ route('user.pocos') }}"><i class="fa fa-circle-o"></i> Registered wells</a></li>
           </ul>
         </li> 
-        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Relatorios</span></a></li>
-        <li><a href="#"><i class="fa fa-envelope"></i> <span>Contato</span></a></li>
+        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Report</span></a></li>
+        <li><a href="#"><i class="fa fa-envelope"></i> <span>Contact</span></a></li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Usuarios</span>
+            <i class="fa fa-users"></i> <span>Users</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('user.users.ativos') }}"><i class="fa fa-circle-o"></i> Ativos</a></li>
-            <li><a href="{{ route('user.users.inativos') }}"><i class="fa fa-circle-o"></i> Inativos</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Cadastrar novo</a></li>
+            <li><a href="{{ route('user.users.ativos') }}"><i class="fa fa-circle-o"></i> Actives</a></li>
+            <li><a href="{{ route('user.users.inativos') }}"><i class="fa fa-circle-o"></i> Inactives</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Register New</a></li>
           </ul>
         </li>
 
         
-        <li><a href="#"><i class="fa fa-times"></i> <span>Sair</span></a></li>
+        <li><a href="#"><i class="fa fa-times"></i> <span>Logout</span></a></li>
         
       </ul>
     </section>
