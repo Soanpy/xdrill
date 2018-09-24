@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Categoria;
-use App\Produto;
+use App\Analysis;
+use App\Company;
+use App\Continent;
+use App\Country;
+use App\Data;
+use App\Log;
+use App\Telemetry;
 use App\User;
-use App\Telemetria;
-use App\Orcamento;
-use App\Segmento;
+use App\Well;
+use App\WellAnalysis;
+use App\Zone;
 
 use App\Http\Controllers\UserController;
 
@@ -57,19 +62,27 @@ class ViewController extends Controller
         ]);
     }
 
-    public function userCadastrarPoco()
+    public function userRegisterWell()
     {   
         return view('administrativo.pocos.cadastrar');
     }
 
-    public function userPocos()
+    public function userWells()
     {   
         return view('administrativo.pocos.pocos');
     }
 
-    public function userPoco()
+    public function userWell($well_id)
     {   
-        return view('administrativo.pocos.perfil');
+        $well = Well::find($well_id);
+        if(!$well){
+            return redirect()->back()->with([
+                'danger' => 'Informed well could not be found, select a valid one.'
+            ]);
+        }
+        return view('administrativo.pocos.perfil')->with([
+            'well' => $well
+        ]);
     }
     
     public function userUsersAtivos()

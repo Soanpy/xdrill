@@ -19,16 +19,18 @@ Route::post('/login','UserController@login')->name('login');
 Route::get('/register','ViewController@register')->name('register.page');
 Route::post('/register','UserController@register')->name('register');
 
-Route::get('/user/poco/cadastrar','ViewController@userCadastrarPoco')->name('user.cadastrar.poco');
-Route::get('/user/pocos','ViewController@userPocos')->name('user.pocos');
-Route::get('/user/poco','ViewController@userPoco')->name('user.poco');
 Route::get('/user/usuarios/ativos','ViewController@userUsersAtivos')->name('user.users.ativos');
 Route::get('/user/usuarios/inativos','ViewController@userUsersInativos')->name('user.users.inativos');
 Route::get('/user/usuario','ViewController@userUsersPerfil')->name('user.dados.user.criado');
 
 Route::middleware(['user'])->prefix('system')->group(function(){
+    //VIEW ROUTES
     Route::get('/dashboard','ViewController@systemDashboard')->name('dashboard');
-
+    Route::get('/well/{well_id}','ViewController@userWell')->name('user.well');
+    Route::get('/well/cadastrar','ViewController@userRegisterWell')->name('user.register.well');
+    Route::get('/wells','ViewController@userWells')->name('user.wells');
+    
+    //POST ROUTES
     Route::post('/register/well','UserController@registerWell')->name('register.well');
 });
 // 	Route::get('/perfil','ViewAdminController@perfil')->name('admin.perfil');

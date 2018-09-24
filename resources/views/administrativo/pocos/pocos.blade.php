@@ -20,13 +20,13 @@
         <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Poços
+            Well
             {{-- <small>dinamica</small> --}}
         </h1>
         <ol class="breadcrumb">
             {{-- <li><a href="#"><i class="fa fa-dashboard"></i> Tabela</a></li>
             <li><a href="#">Tables</a></li> --}}
-            <li class="active">Poços cadastrados</li>
+            <li class="active">Registered Wells</li>
         </ol>
     </section>
     <section class="content">
@@ -34,73 +34,33 @@
             <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                <h3 class="box-title">Tabela com poços cadastrados</h3>
+                <h3 class="box-title">Registered wells table</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Foto</th>
-                            <th>Título</th>
-                            <th>Data de criação</th>
-                            <th>Usuário criador</th>
-                            <th>Opções</th>
+                            <th>Photo</th>
+                            <th>Title</th>
+                            <th>Creation date</th>
+                            <th>Creator</th>
+                            <th>Options</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr>
 
-                        <tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr><tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr><tr>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">Internet Explorer 4.0</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'">{{ date('d/m/Y') }}</td>
-                            <td style="cursor: pointer" onclick="location.href='{{ route("user.poco") }}'"> Nome do usuário </td>
-                            <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
-                        </tr>
-                    
+                        @foreach(Auth::user()->wells as $well)
+                            <tr>
+                                <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
+                                <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'">{{$well->title}}</td>
+                                <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'">{{ date('d/m/Y', strtotime($well->created_at)) }}</td>
+                                <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'">{{$well->user->name}}</td>
+                                <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
                 </table>
                 </div>
                 <!-- /.box-body -->
