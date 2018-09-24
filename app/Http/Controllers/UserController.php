@@ -125,6 +125,45 @@ class UserController extends Controller
             return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
         }
     }
+    
+    public function statusWell($well_id)
+    {
+
+        try{
+
+            $well = Well::find($well_id);
+            if(!$well){
+                return redirect()->back()->with([
+                    'danger' => 'The well informed could not be found'
+                ]);
+            }
+            $counter = 0;
+            if($well->status == 'ACTIVE'){
+                
+                $well->status = 'INACTIVE';
+                $well->update();
+                
+                return redirect()->back()->with('success', 'Well successfully updated!');
+            }elseif($well->status == 'INACTIVE'){
+                
+                $well->status = 'ACTIVE';
+                $well->update();
+
+                return redirect()->back()->with('success', 'Well successfully updated!');
+            }
+            
+
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = 0;
+            $telemetria->method = 'statusWell';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
 
 
 }

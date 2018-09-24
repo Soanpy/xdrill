@@ -32,6 +32,9 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     
     //POST ROUTES
     Route::post('/register/well','UserController@registerWell')->name('register.well');
+    
+    //ACTION GET ROUTES
+    Route::get('/well/status/{well_id}','UserController@wellStatus')->name('well.status');
 });
 // 	Route::get('/perfil','ViewAdminController@perfil')->name('admin.perfil');
 // 	Route::post('/perfil/alterar/dados','AdminController@alterarDados')->name('admin.alterar.dados');
