@@ -203,5 +203,76 @@ class UserController extends Controller
         }
     }
 
+    public function updateUserPassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
+        try{
+            $credentials = [
+                'email' => Auth::user()->email,
+                'password' => bcrypt($request->old_password)
+            ];
+            if(!Auth::attempt($credentials)){
+                return redirect()->back()->with('danger', 'The informed password for the account is wrong');
+            }
+
+            $user = Auth::user();
+            $user->password = bcrypt($request->new_password);
+            $user->update();
+
+            return redirect()->back()->with('success', 'Password updated!');
+            
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'updateUserPassword';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
+    public function updateUserAddress(Request $request)
+    {
+        $request->validate([
+            'address' => 'sometimes|string',
+            'number' => 'sometimes|string',
+            'complement' => 'sometimes|string',
+            'district' => 'sometimes|string',
+            'city' => 'sometimes|string',
+            'state' => 'sometimes|string',
+            'country' => 'sometimes|string',
+            'zip' => 'sometimes|string',
+        ]);
+        try{
+            $user = Auth::user();
+            $user->street = $request->address;
+            $user->number = $request->number;
+            $user->complement = $request->complement;
+            $user->district = $request->district;
+            $user->city = $request->city;
+            $user->state = $request->state;
+            $user->country = $request->country;
+            $user->zip = $request->zip;
+            $user->update();
+
+            return redirect()->back()->with('success', 'Address updated!');
+            
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'updateUserAddress';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
 
 }

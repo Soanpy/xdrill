@@ -31,6 +31,15 @@
     </section>
     <section class="content">
         <div class="row">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
             <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
@@ -98,9 +107,6 @@
         'ordering'    : true,
         'info'        : true,
         'autoWidth'   : true,
-        "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
-            }
     });
   })
 </script>

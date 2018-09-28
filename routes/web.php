@@ -33,7 +33,9 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     
     //POST ROUTES
     Route::post('/register/well','UserController@registerWell')->name('register.well');
-    Route::post('/update/user/data','UserController@updatePersonalUserData')->name('admin.update.data');
+    Route::post('/update/user/data','UserController@updatePersonalUserData')->name('user.update.data');
+    Route::post('/update/user/password','UserController@updateUserPassword')->name('user.update.password');
+    Route::post('/update/user/address','UserController@updateUserAddress')->name('user.update.address');
     Route::post('/register/well','UserController@registerWell')->name('register.well');
     
     //ACTION GET ROUTES

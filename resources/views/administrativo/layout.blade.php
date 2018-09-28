@@ -73,20 +73,21 @@
         </li> 
         <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Report</span></a></li>
         <li><a href="#"><i class="fa fa-envelope"></i> <span>Contact</span></a></li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-users"></i> <span>Users</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ route('user.users.ativos') }}"><i class="fa fa-circle-o"></i> Actives</a></li>
-            <li><a href="{{ route('user.users.inativos') }}"><i class="fa fa-circle-o"></i> Inactives</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Register New</a></li>
-          </ul>
-        </li>
-
+        @if(Auth::user()->type == 'ADMIN')
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-users"></i> <span>Users</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{{ route('user.users.ativos') }}"><i class="fa fa-circle-o"></i> Actives</a></li>
+              <li><a href="{{ route('user.users.inativos') }}"><i class="fa fa-circle-o"></i> Inactives</a></li>
+              <li><a href="#"><i class="fa fa-circle-o"></i>Register New</a></li>
+            </ul>
+          </li>
+        @endif
         
         <li><a href="#"><i class="fa fa-times"></i> <span>Logout</span></a></li>
         
