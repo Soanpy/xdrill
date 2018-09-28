@@ -30,20 +30,20 @@
         <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#activity" data-toggle="tab">Dados de cadastro</a></li>
-              <li><a href="#timeline" data-toggle="tab">Alterar Senha</a></li>
+              <li class="active"><a href="#activity" data-toggle="tab">Personal Data</a></li>
+              <li><a href="#timeline" data-toggle="tab">Update Password</a></li>
             </ul>
             <div class="tab-content">
 
               <div class="active tab-pane" id="activity">
                 
-                <form class="form-horizontal" method="post" action="{{ route('admin.alterar.dados') }}">
+                <form class="form-horizontal" method="post" action="{{ route('admin.update.data') }}">
                     @csrf
                     <div class="form-group">
-                      <label for="inputName" class="col-sm-2 control-label">Nome</label>
+                      <label for="inputName" class="col-sm-2 control-label">Name</label>
   
                       <div class="col-sm-10">
-                        <input type="text" required class="form-control" name="nome" placeholder="Name" value="{{ Auth::user()->nome }}">
+                        <input type="text" required class="form-control" name="name" placeholder="Name" value="{{ Auth::user()->name }}">
                       </div>
                     </div>
                     <div class="form-group">
@@ -53,17 +53,33 @@
                         <input type="email" required class="form-control" name="email" placeholder="Email" value="{{ Auth::user()->email }}">
                       </div>
                     </div>
+
+                    <div class="form-group">
+                      <label for="inputPhone" class="col-sm-2 control-label">Phone</label>
+  
+                      <div class="col-sm-10">
+                        <input type="text" required class="form-control" name="phone" placeholder="Phone" value="{{ Auth::user()->phone }}">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputCellphone" class="col-sm-2 control-label">Cellphone</label>
+  
+                      <div class="col-sm-10">
+                        <input type="text" required class="form-control" name="cellphone" placeholder="Cellphone" value="{{ Auth::user()->cellphone }}">
+                      </div>
+                    </div>
                     
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success pull-right">Atualizar</button>
+                        <button type="submit" class="btn btn-primary pull-right">Update</button>
                       </div>
                     </div>
                   </form>
               </div>
               <!-- /.tab-pane -->
 
-              <div class="tab-pane" id="timeline">
+              {{-- <div class="tab-pane" id="timeline">
                 <form class="form-horizontal" method="post" action="{{ route('admin.alterar.senha') }}">
                     @csrf
                     <div class="form-group">
@@ -95,7 +111,7 @@
                     </div>
                 </form>
 
-              </div>
+              </div> --}}
               <!-- /.tab-pane -->
 
             </div>

@@ -100,5 +100,8 @@ class ViewController extends Controller
         return view('administrativo.usuarios.perfil');
     }
 
-    
+    public function systemUserProfile()
+    {
+        return view('administrativo.profile.perfil');
+    }
 }

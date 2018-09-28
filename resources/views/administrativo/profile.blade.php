@@ -18,12 +18,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-          User Profile
+          Profile
         </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li><a href="#">Examples</a></li>
-          <li class="active">User profile</li>
+          <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">Profile</li>
         </ol>
       </section>
 
@@ -37,11 +36,11 @@
             <div class="box-body box-profile">
               <img class="profile-user-img img-responsive img-circle" src="{{asset('administrativo/dist/img/user4-128x128.jpg')}}" alt="User profile picture">
 
-              <h3 class="profile-username text-center">Nina Mcintire</h3>
+              <h3 class="profile-username text-center">{{Auth::user()->name}}</h3>
 
-              <p class="text-muted text-center">Software Engineer</p>
+              <p class="text-muted text-center">{{Auth::user()->username}}</p>
 
-              <ul class="list-group list-group-unbordered">
+              {{-- <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
                   <b>Followers</b> <a class="pull-right">1,322</a>
                 </li>
@@ -51,9 +50,9 @@
                 <li class="list-group-item">
                   <b>Friends</b> <a class="pull-right">13,287</a>
                 </li>
-              </ul>
+              </ul> --}}
 
-              <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+              {{-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> --}}
             </div>
             <!-- /.box-body -->
           </div>
@@ -62,27 +61,29 @@
           <!-- About Me Box -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">About Me</h3>
+              <h3 class="box-title">Personal Data</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+              <strong><i class="fa fa-telephone margin-r-5"></i> Phone and Cellphone</strong>
 
               <p class="text-muted">
-                B.S. in Computer Science from the University of Tennessee at Knoxville
+                {{Auth::user()->phone ?? "No phone informed"}} / {{Auth::user()->cellphone ?? "No cellphone informed"}}
               </p>
 
               <hr>
 
               <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
 
-              <p class="text-muted">Malibu, California</p>
+              <p class="text-muted">{{Auth::user()->address ?? "No address informed"}} {{Auth::user()->number ?? "Number unknown"}}, 
+                {{Auth::user()->complement ?? "No complement"}}, {{Auth::user()->district ?? "No district informed"}}, {{Auth::user()->city ?? "No city informed"}} 
+                / {{Auth::user()->state ?? "No state informed"}} - {{Auth::user()->country ?? "No country informed"}} - {{Auth::user()->zip ?? "No zip code informed"}}</p>
 
-              <hr>
+              {{-- <hr>
 
               <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
 
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p> --}}
             </div>
             <!-- /.box-body -->
           </div>

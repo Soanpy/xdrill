@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Validation\Rule;
+
 use App\Analysis;
 use App\Company;
 use App\Continent;
@@ -157,6 +159,42 @@ class UserController extends Controller
             $telemetria = new Telemetry;
             $telemetria->user_id = 0;
             $telemetria->method = 'statusWell';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+    
+    
+    public function updatePersonalUserData(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => [
+                'required', 
+                'email',
+                Rule::unique('users')->ignore(Auth::user()->id),
+            ],
+            'phone' => 'required|string',
+            'cellphone' => 'required|string'
+        ]);
+        try{
+
+            $user = Auth::user();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->cellphone = $request->cellphone;
+            $user->update();
+
+            return redirect()->back()->with('success', 'Profile data updated!');
+            
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'updatePersonalUserData';
             $telemetria->controller = 'UserController';
             $telemetria->description = $e->getMessage();
             $telemetria->save();

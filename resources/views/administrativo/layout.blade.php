@@ -55,7 +55,7 @@
         <li class="header">MENU</li>
         <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
-        <li><a href="#"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+        <li><a href="{{route('user.profile')}}"><i class="fa fa-user"></i> <span>Profile</span></a></li>
 
         {{-- <li><a href="#"><i class="fa fa-users"></i> <span>Contatos</span></a></li> --}}
 
@@ -68,7 +68,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ route('user.register.well') }}"><i class="fa fa-circle-o"></i> Register new well</a></li>
-            <li><a href="{{ route('user.wells') }}"><i class="fa fa-circle-o"></i> Registered wells</a></li>
+            <li><a href="{{ route('user.pocos') }}"><i class="fa fa-circle-o"></i> Registered wells</a></li>
           </ul>
         </li> 
         <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Report</span></a></li>

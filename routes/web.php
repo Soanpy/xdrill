@@ -26,11 +26,14 @@ Route::get('/user/usuario','ViewController@userUsersPerfil')->name('user.dados.u
 Route::middleware(['user'])->prefix('system')->group(function(){
     //VIEW ROUTES
     Route::get('/dashboard','ViewController@systemDashboard')->name('dashboard');
+    Route::get('/profile','ViewController@systemUserProfile')->name('user.profile');
     Route::get('/well/{well_id}','ViewController@userWell')->name('user.well');
-    Route::get('/well/cadastrar','ViewController@userRegisterWell')->name('user.register.well');
-    Route::get('/wells','ViewController@userWells')->name('user.wells');
+    Route::get('/register/well','ViewController@userRegisterWell')->name('user.register.well');
+    Route::get('/wells','ViewController@userWells')->name('user.pocos');
     
     //POST ROUTES
+    Route::post('/register/well','UserController@registerWell')->name('register.well');
+    Route::post('/update/user/data','UserController@updatePersonalUserData')->name('admin.update.data');
     Route::post('/register/well','UserController@registerWell')->name('register.well');
     
     //ACTION GET ROUTES
