@@ -30,6 +30,8 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::get('/well/{well_id}','ViewController@userWell')->name('user.well');
     Route::get('/register/well','ViewController@userRegisterWell')->name('user.register.well');
     Route::get('/wells','ViewController@userWells')->name('user.pocos');
+    Route::get('/create/zone','ViewController@createZone')->name('create.zone');
+    Route::get('/zones','ViewController@zones')->name('zones');
     
     //POST ROUTES
     Route::post('/register/well','UserController@registerWell')->name('register.well');
@@ -37,51 +39,14 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::post('/update/user/password','UserController@updateUserPassword')->name('user.update.password');
     Route::post('/update/user/address','UserController@updateUserAddress')->name('user.update.address');
     Route::post('/register/well','UserController@registerWell')->name('register.well');
+    Route::post('/register/zone','UserController@createZone')->name('register.zone');
+    Route::post('/edit/zone', 'UserController@updateZone')->name('edit.zone.name');
     
     //ACTION GET ROUTES
     Route::get('/well/status/{well_id}','UserController@wellStatus')->name('well.status');
+    Route::get('/logout','UserController@userLogout')->name('logout');
 });
-// 	Route::get('/perfil','ViewAdminController@perfil')->name('admin.perfil');
-// 	Route::post('/perfil/alterar/dados','AdminController@alterarDados')->name('admin.alterar.dados');
-// 	Route::post('/perfil/alterar/senha','AdminController@alterarSenha')->name('admin.alterar.senha');
 
-// 	Route::get('/dashboard','ViewController@adminDashboard')->name('admin.dashboard');
-// 	Route::get('/produtos/cadastrar','ViewController@adminProdutosCadastrar')->name('admin.produtos.cadastrar');
-// 	Route::get('/produtos/cadastrados','ViewController@adminProdutosCadastrados')->name('admin.produtos.cadastrados');
-// 	Route::get('/produtos/arquivados','ViewController@adminProdutosArquivados')->name('admin.produtos.arquivados');
-// 	Route::get('/produtos/destaque','ViewController@adminProdutosDestaque')->name('admin.produtos.destaque');
-// 	Route::get('/categorias','ViewController@adminCategorias')->name('admin.categorias');
-// 	Route::get('/categorias/arquivadas','ViewController@adminCategoriasArquivadas')->name('admin.categorias.arquivadas');
-// 	Route::get('/segmentos','ViewAdminController@segmentos')->name('admin.segmentos');
-// 	Route::get('/segmento/{segmento_id?}','ViewController@adminSegmento')->name('admin.segmento');
-
-// 	Route::get('/configuracoes/inicial','ViewController@adminConfiguracoesInicial')->name('admin.configuracoes.inicial');
-	
-// 	Route::post('/produtos/create','AdminController@createProduto')->name('admin.produtos.create');
-// 	Route::post('/produtos/update','AdminController@updateProduto')->name('admin.produto.update');
-// 	Route::post('/categoria/create','AdminController@createCategoria')->name('admin.categoria.create');
-// 	Route::post('/categoria/update','AdminController@updateCategoria')->name('admin.categoria.update');
-// 	Route::post('/segmento/cadastro','AdminController@createSegmento')->name('admin.cadastra.segmento');
-// 	Route::post('/segmento/update','AdminController@updateSegmento')->name('admin.update.segmento');
-
-// 	Route::get('/logout','AdminController@logout')->name('admin.logout');
-// 	Route::get('/produto/arquivar/{produto_id}','AdminController@arquivarProduto')->name('admin.produto.arquivar');
-// 	Route::get('/produto/ativar/{produto_id}','AdminController@ativarProduto')->name('admin.produto.ativar');
-// 	Route::get('/produto/destacar/{produto_id}','AdminController@destaqueProduto')->name('admin.produto.destaque');
-// 	Route::get('/categoria/arquivar/{categoria_id}','AdminController@statusCategoria')->name('admin.categoria.arquivar');
-// 	Route::get('/categoria/ativar/{categoria_id}','AdminController@statusCategoria')->name('admin.categoria.ativar');
-// 	Route::get('/segmento/ativar/{segmento_id}','AdminController@ativarSegmento')->name('admin.segmento.ativar');
-// 	Route::get('/segmento/desativar/{segmento_id}','AdminController@desativarSegmento')->name('admin.segmento.desativar');
-// 	Route::get('/segmento/apagar/{segmento_id}','AdminController@apagarSegmento')->name('admin.segmento.apagar');
-
-// 	Route::get('/orcamentos/novos','ViewController@adminOrcamentosNovos')->name('admin.orcamentos.novos');
-// 	Route::get('/orcamentos/arquivados','ViewController@adminOrcamentosArquivados')->name('admin.orcamentos.arquivados');
-// 	Route::get('/configuracoes/slide/show','ViewController@adminSlideShow')->name('admin.configuracoes.slideshow');
-// 	Route::get('/configuracoes/depimentos','ViewController@adminDepoimentos')->name('admin.configuracoes.depoimentos');
-// 	Route::get('/configuracoes/anuncios','ViewController@adminAnuncios')->name('admin.configuracoes.anuncios');
-
-// });
-
-Route::middleware(['user'])->prefix('user')->group(function(){
-
-});
+//AJAX buscas
+Route::get('/json/countries','AjaxController@countriesAjax')->name('json.countries');
+Route::get('/json/zones','AjaxController@zonesAjax')->name('json.zones');

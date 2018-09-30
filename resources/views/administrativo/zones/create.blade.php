@@ -49,25 +49,12 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{{route('register.well')}}">
+                    <form role="form" method="POST" action="{{route('register.zone')}}">
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="wellTitle">*Title</label>
-                                <input type="text" required name="title" class="form-control" id="wellTitle" placeholder="Well title">
-                            </div>
-                            <div class="form-group">
-                                <label for="wellName">*Name</label>
-                                <input type="text" required name="name" class="form-control" id="wellName" placeholder="Well name">
-                            </div>
-                            <div class="form-group">
-                                <label for="wellDescription">*Description</label>
-                                <textarea name="description" required id="wellDescription" class="form-control" cols="30" rows="10" placeholder="Write something describing the new well being registered"></textarea>
-                                {{-- <input type="text" class="form-control" id="descricaoPoco" placeholder="Descricao"> --}}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Empresa</label>
-                                <input type="text" class="form-control" disabled placeholder="{{Auth::user()->company?Auth::user()->company->name:'No company'}}">
+                                <label for="zoneName">*Name</label>
+                                <input type="text" required name="name" class="form-control" id="zoneName" placeholder="Zone name">
                             </div>
                             <div class="form-group">
                                 <label for="continentName">Continent</label>
@@ -82,13 +69,6 @@
                                 <select name="country_id" class="form-control" id="countries">
                                     <option value=""></option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="zoneName">Zone</label>
-                                <select name="zone_id" class="form-control" id="zones">
-                                    <option value=""></option>
-                                </select>
-                                <p>Don't have a zone? <a href="{{route('create.zone')}}">Create one</a></p>
                             </div>
                             {{-- <div class="form-group">
                                 <label for="wellPhoto">Representative photo</label>

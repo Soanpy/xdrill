@@ -22,6 +22,11 @@ class Well extends Model
         return $this->belongsTo('App\Company', 'company_id');
     }
 
+    public function zone()
+    {
+        return $this->belongsTo('App\Zone', 'zone_id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id');
@@ -30,5 +35,10 @@ class Well extends Model
     public function analyses()
     {
         return $this->hasMany('App\WellAnalysis', 'well_id');
+    }
+
+    public function datas()
+    {
+        return $this->hasMany('App\Data', 'well_id');
     }
 }

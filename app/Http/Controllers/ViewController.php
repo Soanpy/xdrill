@@ -64,7 +64,10 @@ class ViewController extends Controller
 
     public function userRegisterWell()
     {   
-        return view('administrativo.pocos.cadastrar');
+        $continents = Continent::all();
+        return view('administrativo.pocos.cadastrar')->with([
+            'continents' => $continents
+        ]);
     }
 
     public function userWells()
@@ -103,5 +106,17 @@ class ViewController extends Controller
     public function systemUserProfile()
     {
         return view('administrativo.profile.perfil');
+    }
+
+    public function createZone()
+    {
+        $continents = Continent::all();
+
+        return view('administrativo.zones.create')->with(['continents' => $continents]);
+    }
+
+    public function zones()
+    {
+        return view('administrativo.zones.zones');
     }
 }

@@ -3,22 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Authenticatable;
-use Laravel\Lumen\Auth\Authorizable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Country extends Model implements AuthenticatableContract, AuthorizableContract
+class Country extends Model
 {
-    use Authenticatable, Authorizable, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'name'
     ];
 
     protected $hidden =  [
-        'continent_id', 'status'
+        'continent_id', 'status', 'created_at', 'updated_at', 'deleted_at'
     ];
 
     public function continent()

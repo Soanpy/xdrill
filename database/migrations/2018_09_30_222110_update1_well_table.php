@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContinentTable extends Migration
+class Update1WellTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateContinentTable extends Migration
      */
     public function up()
     {
-        Schema::create('continent', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 40);
-            $table->string('status', 20);
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('wells', function(Blueprint $table){
+            $table->integer('zone_id')->unsigned();
+            $table->index('zone_id');
         });
     }
 
@@ -29,6 +26,6 @@ class CreateContinentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('continent');
+        //
     }
 }

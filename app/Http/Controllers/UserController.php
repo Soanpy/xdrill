@@ -94,6 +94,12 @@ class UserController extends Controller
         }
     }
 
+    public function userLogout()
+    {
+        Auth::logout();
+        return redirect()->route('index')->with('success', 'Successfully logged out from account');
+    }
+
 
     public function registerWell(Request $request)
     {
@@ -101,6 +107,7 @@ class UserController extends Controller
             'name' => 'required|string',
             'title' => 'required|string',
             'description' => 'required',
+            'zone_id' => 'required|exists:zones,id'
         ]);
 
         try{
@@ -111,6 +118,7 @@ class UserController extends Controller
             $well->name = $request->name;
             $well->company_id = Auth::user()->company_id;
             $well->user_id = Auth::user()->id;
+            $well->zone_id = $request->zone_id;
             $well->status = 'ACTIVE';
             $well->save();
             
@@ -274,5 +282,61 @@ class UserController extends Controller
             return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
         }
     }
+
+    public function createZone(Request $request)
+    {
+        try{
+            $request->validate([
+                'name' => 'required',
+                'country_id' => 'required|numeric|exists:countries,id',
+                'continent_id' => 'required|numeric|exists:continents,id'
+            ]);
+    
+            $zone = new Zone;
+            $zone->name = $request->name;
+            $zone->country_id = $request->country_id;
+            $zone->status = 'ACTIVE';
+            $zone->company_id = Auth::user()->company ? Auth::user()->company->id : 0;
+            $zone->user_id = Auth::user()->id;
+            $zone->save();
+            
+            return redirect()->back()->with('success', 'Zone created successfully!');
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'createZone';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
+    public function updateZone(Request $request)
+    {
+        try{
+            $request->validate([
+                'name' => 'required',
+                'zone_id' => 'required|numeric|exists:zone,id'
+            ]);
+    
+            $zone = Zone::find($request->zone_id);
+            $zone->name = $request->name;
+            $zone->update();
+            
+            return redirect()->back()->with('success', 'Zone name updated successfully!');
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'updateZone';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
 
 }
