@@ -89,7 +89,7 @@
           </li>
         @endif
         
-        <li><a href="#"><i class="fa fa-times"></i> <span>Logout</span></a></li>
+        <li><a href="{{route('logout')}}"><i class="fa fa-times"></i> <span>Logout</span></a></li>
         
       </ul>
     </section>

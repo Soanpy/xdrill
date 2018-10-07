@@ -3,14 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Zone extends Model implements AuthenticatableContract, AuthorizableContract
+class Zone extends Model
 {
-    use Authenticatable, Authorizable, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'name'
@@ -30,7 +27,7 @@ class Zone extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo('App\Company', 'company_id');
     }
 
-    public function user()
+    public function creator()
     {
         return $this->belongsTo('App\User', 'user_id');
     }

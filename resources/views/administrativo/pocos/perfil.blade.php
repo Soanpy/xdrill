@@ -235,12 +235,13 @@
           </div>
           <!-- /.nav-tabs-custom -->
         </div>
-
-        <div class="col-md-12">
-          <div class="nav-tabs-custom">
-              <div id="main" style="width:100%; height:400px;"></div>
+        @if(count($well->datas) > 0)
+          <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <div id="main" style="width:100%; height:400px;"></div>
+            </div>
           </div>
-        </div>
+        @endif
         <!-- /.col -->
       </div>
       <!-- /.row -->
