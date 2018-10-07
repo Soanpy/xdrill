@@ -21,6 +21,8 @@ use App\User;
 use App\Well;
 use App\Zone;
 
+use Maatwebsite\Excel\Facades\Excel;
+
 class UserController extends Controller
 {
     public function register(Request $request)

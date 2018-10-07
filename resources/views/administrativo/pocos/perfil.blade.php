@@ -104,6 +104,7 @@
               {{-- <li><a href="#bank" data-toggle="tab">Dados de bancários</a></li> --}}
             </ul>
             <div class="tab-content">
+              <a href="{{route('')}}"></a>
               <div class="active tab-pane" id="activity">
                 <!-- Post -->
                 {{-- <div class="post">
