@@ -41,6 +41,7 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::post('/register/well','UserController@registerWell')->name('register.well');
     Route::post('/register/zone','UserController@createZone')->name('register.zone');
     Route::post('/edit/zone', 'UserController@updateZone')->name('edit.zone.name');
+    Route::post('/import/well/data', 'UserController@importWellData')->name('import.well.data');
     
     //ACTION GET ROUTES
     Route::get('/well/status/{well_id}','UserController@wellStatus')->name('well.status');

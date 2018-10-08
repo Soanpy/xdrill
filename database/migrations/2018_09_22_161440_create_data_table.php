@@ -15,7 +15,7 @@ class CreateDataTable extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->increments('id');
-            $table->float('depth');
+            $table->float('depth')->nullable();
             $table->float('rop')->nullable();
             $table->float('rpm')->nullable();
             $table->float('wob')->nullable();
@@ -25,7 +25,7 @@ class CreateDataTable extends Migration
             $table->float('mi')->nullable();
             $table->integer('well_id')->unsigned();
             $table->index('well_id');
-            $table->string('status',20);
+            $table->string('status',20)->default('ACTIVE');
             $table->timestamps();
             $table->softDeletes();
         });

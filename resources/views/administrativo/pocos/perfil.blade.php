@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="{{asset('administrativo/bower_components/Ionicons/css/ionicons.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('administrativo/dist/css/AdminLTE.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('administrativo/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{asset('administrativo/dist/css/skins/_all-skins.min.css')}}">
@@ -30,6 +32,15 @@
       <section class="content">
 
       <div class="row">
+        @if ($errors->any())
+          <div class="alert alert-danger">
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+        @endif
         <div class="col-md-3">
 
           <!-- Profile Image -->
@@ -104,7 +115,17 @@
               {{-- <li><a href="#bank" data-toggle="tab">Dados de bancários</a></li> --}}
             </ul>
             <div class="tab-content">
-              <a href="{{route('')}}"></a>
+              @if(count($well->datas) <= 0)
+                <div class="col-md-12" style="margin-bottom:20px">
+                  <form action="{{route('import.well.data')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="excel" class="form-control" required>
+                    <input type="hidden" hidden name="well_id" value="{{$well->id}}">
+                    <button type="submit" class="btn btn-primary btn-sm">Import data</button>
+                  </form>
+                </div>
+                <hr>
+              @endif
               <div class="active tab-pane" id="activity">
                 <!-- Post -->
                 {{-- <div class="post">
@@ -152,17 +173,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                      @foreach($well->datas as $data)
                         <tr>
-                            <td>5</td>
-                            <td>200</td>
-                            <td>100</td>
-                            <td>100</td>
-                            <td>100</td>
+                            <td>{{$data->depth}}</td>
+                            <td>{{$data->rop}}</td>
+                            <td>{{$data->rpm}}</td>
+                            <td>{{$data->wob}}</td>
+                            <td>{{$data->tflo}}</td>
+                            <td>{{$data->stor}}</td>
+                            <td>{{$data->mse}}</td>
+                            <td>{{$data->mi}}</td>
                             <td>
                               <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalEditar"><i class="fa fa-pencil"></i></a>
                               <a href="#" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalDeletar"><i class="fa fa-trash"></i></a>
                             </td>
-                        </tr>                    
+                        </tr>
+                      @endforeach
+                    </tbody>
                   </table>
                 
               </div>
@@ -321,13 +348,27 @@
 <script src="{{asset('administrativo/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{asset('administrativo/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+<!-- DataTables -->
+<script src="{{asset('administrativo/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('administrativo/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('administrativo/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('administrativo/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('administrativo/dist/js/demo.js')}}"></script>
-
+<script>
+  $(function () {
+    $('#example1').DataTable({
+        'paging'      : true,
+        'lengthChange': true,
+        'searching'   : false,
+        'ordering'    : true,
+        'info'        : false,
+        'autoWidth'   : true,
+    });
+  })
+</script>
 <script type="text/javascript">
   // based on prepared DOM, initialize echarts instance
   var myChart = echarts.init(document.getElementById('main'));

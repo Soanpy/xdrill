@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
-
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Analysis;
 use App\Company;
@@ -21,7 +21,7 @@ use App\User;
 use App\Well;
 use App\Zone;
 
-use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DataImport;
 
 class UserController extends Controller
 {
@@ -105,13 +105,13 @@ class UserController extends Controller
 
     public function registerWell(Request $request)
     {
+        
         $request->validate([
             'name' => 'required|string',
             'title' => 'required|string',
             'description' => 'required',
             'zone_id' => 'required|exists:zones,id'
         ]);
-
         try{
 
             $well = new Well;
@@ -332,6 +332,80 @@ class UserController extends Controller
             $telemetria = new Telemetry;
             $telemetria->user_id = Auth::user()->id??0;
             $telemetria->method = 'updateZone';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+    
+    public function importWellData(Request $request)
+    {
+        $request->validate(
+            [
+                'file'      => $request->excel,
+                'extension' => strtolower($request->excel->getClientOriginalExtension()),
+            ],
+            [
+                'file'          => 'required',
+                'extension'      => 'required|in:xlsx, xls, xlm, xla, xlc, xlt, xlw',
+                'well_id' => 'required|numeric|exists:wells,id'
+            ]
+        );
+        try{
+            // dd($request);
+            if($request->hasFile('excel')){
+                $path = $request->file('excel')->getRealPath();
+                Excel::load(request()->file('excel'), function($reader) use ($request){
+                    $datas = $reader->get();
+                    // dd($datas);
+                    if(!empty($datas) && $datas->count()){
+                        foreach($datas as $key => $value){
+                            $well_data = new Data();
+                            if(!$value->depth || !$value->rop ||
+                                !$value->rpm || !$value->wob ||
+                                !$value->tflo || !$value->stor){
+                                
+                                $well_data->depth = null;
+                                $well_data->rop = null;
+                                $well_data->rpm = null;
+                                $well_data->wob = null;
+                                $well_data->tflo = null;
+                                $well_data->stor = null;
+                                // dd($value->mse);
+                                $well_data->mse = null;
+                                $well_data->mi = null;
+
+                            }else{
+                                $well_data->depth = $value->depth;
+                                $well_data->rop = $value->rop;
+                                $well_data->rpm = $value->rpm;
+                                $well_data->wob = $value->wob;
+                                $well_data->tflo = $value->tflo;
+                                $well_data->stor = $value->stor;
+                                // dd($value->mse);
+                                $well_data->mse = floatval((($value->wob*1000)/117.8588)+((120*PI()*$value->rpm*$value->stor*1000)/(117.8588*($value->rop*3.2808))));
+                                $well_data->mi = floatval((36*$value->stor*1000)/(12.25*$value->wob*1000));
+                            }
+                            $well_data->status = 'ACTIVE';
+                            $well_data->well_id = $request->well_id;
+                            $well_data->save();
+                        }
+                    }
+                });
+            }
+            // $excel = Excel::import(new DataImport, request()->file('excel'), $request->well_id);
+            // foreach($excel as $data){
+            //     $data->well_id = $request->well_id;
+            //     $data->save();
+            // }
+
+            return redirect()->back()->with('success', 'Data saved successfully!');
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'importWellData';
             $telemetria->controller = 'UserController';
             $telemetria->description = $e->getMessage();
             $telemetria->save();
