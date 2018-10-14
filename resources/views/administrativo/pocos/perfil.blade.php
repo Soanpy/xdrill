@@ -161,7 +161,7 @@
   
                 </div> --}}
                   <!-- /.post -->
-                  <table id="example1" class="table table-bordered table-striped">
+                  <table id="tabela" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                           <th>Depth</th>
@@ -389,7 +389,7 @@
 <script src="{{asset('administrativo/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
   $(function () {
-    $('#example1').DataTable({
+    $('#tabela').DataTable({
         'paging'      : true,
         'lengthChange': true,
         'searching'   : false,
