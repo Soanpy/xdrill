@@ -89,7 +89,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6'
         ]);
 
-        if(\Auth::attempt(['email' => $request->email,'password' => $request->password,'status' => 'ACTIVE','type' => 'USER']) ){
+        if(Auth::attempt(['email' => $request->email,'password' => $request->password,'status' => 'ACTIVE','type' => 'USER']) ){
             return redirect()->route('dashboard');
         }else{
             return redirect()->back()->with('danger','Wrong password, try again!');
