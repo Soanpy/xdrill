@@ -169,6 +169,8 @@
                           <th>RPM</th>
                           <th>WOB</th>
                           <th>TFLO</th>
+                          <th>MSE</th>
+                          <th>MI</th>
                           <th>Option</th>
                         </tr>
                     </thead>
