@@ -68,9 +68,9 @@
               @elseif($well->status == 'INACTIVE')
                 <a href="{{route('well.status', ['well_id' => $well->id])}}" class="btn btn-success btn-block"><b>Activate Well</b></a>
               @endif
-              @if(count($well->analyses) <= 0)
+              {{-- @if(count($well->analyses) <= 0)
                 <a href="#" class="btn btn-primary btn-block"><b>Generate Analysis</b></a>
-              @endif
+              @endif --}}
             </div>
             <!-- /.box-body -->
           </div>
@@ -161,6 +161,8 @@
   
                 </div> --}}
                   <!-- /.post -->
+
+
                   <table id="tabela" class="table table-bordered table-striped">
                     <thead>
                         <tr>
