@@ -1,17 +1,17 @@
 @extends('administrativo.layout')
 
 @section('css')
-    <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{{asset('administrativo/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('administrativo/bower_components/font-awesome/css/font-awesome.min.css')}}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="{{asset('administrativo/bower_components/Ionicons/css/ionicons.min.css')}}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('administrativo/dist/css/AdminLTE.min.css')}}">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{asset('administrativo/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
+   <!-- Bootstrap 3.3.7 -->
+   <link rel="stylesheet" href="{{asset('administrativo/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+   <!-- Font Awesome -->
+   <link rel="stylesheet" href="{{asset('administrativo/bower_components/font-awesome/css/font-awesome.min.css')}}">
+   <!-- Ionicons -->
+   <link rel="stylesheet" href="{{asset('administrativo/bower_components/Ionicons/css/ionicons.min.css')}}">
+   <!-- DataTables -->
+   <link rel="stylesheet" href="{{asset('administrativo/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+   <!-- Theme style -->
+   <link rel="stylesheet" href="{{asset('administrativo/dist/css/AdminLTE.min.css')}}">
+   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{asset('administrativo/dist/css/skins/_all-skins.min.css')}}">
   <style>
@@ -73,9 +73,9 @@
               @elseif($well->status == 'INACTIVE')
                 <a href="{{route('well.status', ['well_id' => $well->id])}}" class="btn btn-success btn-block"><b>Activate Well</b></a>
               @endif
-              @if(count($well->analyses) <= 0)
+              {{-- @if(count($well->analyses) <= 0)
                 <a href="#" class="btn btn-primary btn-block"><b>Generate Analysis</b></a>
-              @endif
+              @endif --}}
             </div>
             <!-- /.box-body -->
           </div>
@@ -166,7 +166,9 @@
   
                 </div> --}}
                   <!-- /.post -->
-                  <table id="example1" class="table table-bordered table-striped">
+
+
+                  <table id="tabela" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                           <th>Depth</th>
@@ -174,6 +176,8 @@
                           <th>RPM</th>
                           <th>WOB</th>
                           <th>TFLO</th>
+                          <th>MSE</th>
+                          <th>MI</th>
                           <th>Option</th>
                         </tr>
                     </thead>
@@ -354,45 +358,18 @@
 <script src="{{asset('administrativo/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{asset('administrativo/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<!-- DataTables -->
-<script src="{{asset('administrativo/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('administrativo/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('administrativo/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('administrativo/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('administrativo/dist/js/demo.js')}}"></script>
-<script>
-  $(function () {
-    $('#example1').DataTable({
-        'paging'      : true,
-        'lengthChange': true,
-        'searching'   : false,
-        'ordering'    : true,
-        'info'        : false,
-        'autoWidth'   : true,
-    });
-  })
-</script>
 <script type="text/javascript">
   $('#depth_wob').on('click', function(e){
     $('#graphs_div').empty();
     $('#graphs_div').removeClass('nao-aparecer');
     $('#graphs_div').append('<div id="main" style="width:100%; height:400px;"></div>');
       $.get("{{route('json.depth_wob', ['well_id' => $well->id])}}", function(data) {
-        console.log(data);
-        var easingFuncs = {
-          backInOut: function (k) {
-              var s = 1.70158 * 1.525;
-              if ((k *= 2) < 1) { return 0.5 * (k * k * ((s + 1) * k - s)); }
-              return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
-          },
-          quadraticInOut: function (k) {
-            if ((k *= 2) < 1) { return 0.5 * k * k; }
-            return -0.5 * (--k * (k - 2) - 1);
-          },
-        };
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('main'));
 
@@ -423,5 +400,21 @@
         myChart.setOption(option);
       });
   });
+</script>
+
+<!-- DataTables -->
+<script src="{{asset('administrativo/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('administrativo/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script>
+  $(function () {
+    $('#tabela').DataTable({
+        'paging'      : true,
+        'lengthChange': true,
+        'searching'   : false,
+        'ordering'    : true,
+        'info'        : false,
+        'autoWidth'   : true,
+    });
+  })
 </script>
 @endsection
