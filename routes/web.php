@@ -46,6 +46,7 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     //ACTION GET ROUTES
     Route::get('/well/status/{well_id}','UserController@wellStatus')->name('well.status');
     Route::get('/logout','UserController@userLogout')->name('logout');
+    Route::get('/json/depth/wob/{well_id}','AjaxController@graphDepthWobAjax')->name('json.depth_wob');
 });
 
 //AJAX buscas

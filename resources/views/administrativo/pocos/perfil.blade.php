@@ -14,6 +14,11 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{asset('administrativo/dist/css/skins/_all-skins.min.css')}}">
+  <style>
+    .nao-aparecer {
+      display: none;
+    }
+  </style>
 @endsection
 
 @section('main')
@@ -264,8 +269,9 @@
         </div>
         @if(count($well->datas) > 0)
           <div class="col-md-12">
-            <div class="nav-tabs-custom">
-                <div id="main" style="width:100%; height:400px;"></div>
+            <button id="depth_wob" class="btn btn-xs btn-primary">WOBxDepth</button>
+            <div class="nav-tabs-custom nao-aparecer" id="graphs_div">
+                <div id="main"  style="width:100%; height:400px;"></div>
             </div>
           </div>
         @endif
@@ -370,30 +376,52 @@
   })
 </script>
 <script type="text/javascript">
-  // based on prepared DOM, initialize echarts instance
-  var myChart = echarts.init(document.getElementById('main'));
+  $('#depth_wob').on('click', function(e){
+    $('#graphs_div').empty();
+    $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append('<div id="main" style="width:100%; height:400px;"></div>');
+      $.get("{{route('json.depth_wob', ['well_id' => $well->id])}}", function(data) {
+        console.log(data);
+        var easingFuncs = {
+          backInOut: function (k) {
+              var s = 1.70158 * 1.525;
+              if ((k *= 2) < 1) { return 0.5 * (k * k * ((s + 1) * k - s)); }
+              return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+          },
+          quadraticInOut: function (k) {
+            if ((k *= 2) < 1) { return 0.5 * k * k; }
+            return -0.5 * (--k * (k - 2) - 1);
+          },
+        };
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('main'));
 
-  // specify chart configuration item and data
-  var option = {
-      title: {
-          text: 'Title of the Analysis'
-      },
-      tooltip: {},
-      legend: {
-          data:['Which Data']
-      },
-      xAxis: {
-          data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-      },
-      yAxis: {},
-      series: [{
-          name: 'Sales',
-          type: 'line',
-          data: [5, 20, 36, 10, 10, 20]
-      }]
-  };
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'Depth x WOB'
+            },
+            tooltip: {},
+            legend: {
+                data:['DepthxWOB']
+            },
+            xAxis: {
+                data: data.depth
+            },
+            yAxis: {},
+            series: [{
+                name: 'Depth',
+                type: 'line',
+                data: data.wob,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
 
-  // use configuration item and data specified to show chart
-  myChart.setOption(option);
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+  });
 </script>
 @endsection

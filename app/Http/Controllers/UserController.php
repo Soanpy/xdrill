@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 use App\Analysis;
 use App\Company;
@@ -414,5 +416,69 @@ class UserController extends Controller
         }
     }
 
+    public function processWellData(Request $request)
+    {
+        $request->validate([
+            'well_id' => 'required|exists:wells,id',            
+        ]);
+
+        try{
+
+            $guzzle = new Client();
+
+            $well = Well::find($request->well_id);
+            foreach($well->datas as $data){
+                $dado = [];
+                
+                $dado['depth'] = $data->depth;
+                $dado['rop'] = $data->rop;
+                $dado['rpm'] = $data->rpm;                
+                $dado['wob'] = $data->wob; 
+                $dado['tflo'] = $data->tflo; 
+                
+                $rows = $dado;
+            }
+                
+
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+
+            $res = $guzzle->request('POST', 'https://api.iugu.com/v1/payment_token', [
+                'headers' => [
+                  'Content-Type' => 'application/json',
+                  'Authorization' => 'Basic '.base64_encode($this->token),
+                ],
+                'body' => $params,
+      
+            ]);
+
+            $response = json_decode($res->getBody());
+            
+            // foreach(){
+            //     $response['depth'];
+
+            // }
+            //Estrutura que vou receber de volta
+            /*
+                {
+                    'depth': [0.5, 1],
+                    'wob': [0.75, 2.5],
+                    'rop': [5, 10],
+                    'mse': [50, 60]
+                }
+            */
+
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'processWellData';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
 
 }

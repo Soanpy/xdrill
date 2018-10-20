@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 use App\Country;
+use App\Well;
 use App\Zone;
 
 class AjaxController extends Controller
@@ -20,5 +21,21 @@ class AjaxController extends Controller
         $country_id = Input::get('country_id');
         $zones = Zone::where('country_id', $country_id)->where('status', 'ACTIVE')->get();
         return response()->json($zones);
+    }
+    
+    public function graphDepthWobAjax($well_id){
+
+        try{
+            $response = [];
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $response['wob'][] = $data->wob;
+                $response['depth'][] = $data->depth;
+            }
+
+            return response()->json($response);
+        }catch(\Exception $e){
+            return response()->json(['message' => 'Error trying to get the graph'], 500);
+        }        
     }
 }
