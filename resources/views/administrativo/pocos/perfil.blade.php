@@ -51,7 +51,7 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{asset('administrativo/dist/img/user4-128x128.jpg')}}" alt="User profile picture">
+              {{-- <img class="profile-user-img img-responsive img-circle" src="{{asset('administrativo/dist/img/user4-128x128.jpg')}}" alt="User profile picture"> --}}
 
               <h3 class="profile-username text-center">{{$well->title}}</h3>
 
@@ -73,6 +73,7 @@
               @elseif($well->status == 'INACTIVE')
                 <a href="{{route('well.status', ['well_id' => $well->id])}}" class="btn btn-success btn-block"><b>Activate Well</b></a>
               @endif
+              <a href="{{asset('excel_model.xlsx')}}" class="btn btn-primary btn-block" download><b>Download Excel Model</b></a>
               {{-- @if(count($well->analyses) <= 0)
                 <a href="#" class="btn btn-primary btn-block"><b>Generate Analysis</b></a>
               @endif --}}
