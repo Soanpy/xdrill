@@ -37,17 +37,19 @@
         <div class="row">
             <div class="col-lg-4 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                <h3>{{count(Auth::user()->wells)}}</h3>
-    
-                <p>Number of wells</p>
-                </div>
-                <div class="icon">
-                <i class="ion ion-cube"></i>
-                </div>
-                
-            </div>
+            <a href="{{ route('user.pocos') }}">
+              <div class="small-box bg-aqua">
+                  <div class="inner">
+                  <h3>{{count(Auth::user()->wells)}}</h3>
+      
+                  <p>Number of wells</p>
+                  </div>
+                  <div class="icon">
+                  <i class="ion ion-cube"></i>
+                  </div>
+                  
+              </div>
+            </a>
             </div>
             <!-- ./col -->
             <div class="col-lg-4 col-xs-6">

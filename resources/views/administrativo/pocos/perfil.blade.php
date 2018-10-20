@@ -418,4 +418,15 @@
     });
   })
 </script>
+<script type="text/javascript">
+  $('#zones').on('change', function(e){
+      var zone_id = e.target.value;
+      $.get("{{route('json.zone.data')}}?zone_id="+zone_id ,function(data) {
+        $('#country').empty();
+        $('#continent').empty();
+        $('#country').append('<option value="'+ data.country.id +'">'+ data.country.name +'</option>');
+        $('#continent').append('<option value="'+ data.continent.id +'">'+ data.continent.name +'</option>');
+      });
+  });
+</script>
 @endsection
