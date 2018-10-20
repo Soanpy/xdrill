@@ -22,6 +22,15 @@ class AjaxController extends Controller
         $zones = Zone::where('country_id', $country_id)->where('status', 'ACTIVE')->get();
         return response()->json($zones);
     }
+    public function zoneDataAjax($zone_id){
+        $response = array();
+        $zone = Zone::find($zone_id);
+        $response['country']['name'] = $zone->country->name;
+        $response['country']['id'] = $zone->country->id;
+        $response['continent']['name'] = $zone->continent->name;
+        $response['continent']['id'] = $zone->continent->id;
+        return response()->json($response);
+    }
     
     public function graphDepthWobAjax($well_id){
 

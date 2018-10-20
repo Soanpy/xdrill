@@ -481,4 +481,35 @@ class UserController extends Controller
         }
     }
 
+    public function updateWellInfo(Request $request)
+    {
+        $request->validate([
+            'zone_id' => 'required|exists:zones,id',
+            'description' => 'sometimes|string',
+            'name' => 'required|string',
+            'title' => 'required|string',
+            'well_id' => 'required|exists:wells,id'
+        ]);
+        
+        try{
+            $well = Well::find($request->well_id);
+            $well->zone_id = $request->zone_id;
+            $well->description = $request->description;
+            $well->name = $request->name;
+            $well->title = $request->title;
+            $well->update();
+    
+            return redirect()->back()->with('success', 'Well info updated successfully');
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'updateWellInfo';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
 }

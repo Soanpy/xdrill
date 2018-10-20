@@ -42,11 +42,13 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::post('/register/zone','UserController@createZone')->name('register.zone');
     Route::post('/edit/zone', 'UserController@updateZone')->name('edit.zone.name');
     Route::post('/import/well/data', 'UserController@importWellData')->name('import.well.data');
+    Route::post('/update/well/info', 'UserController@updateWellInfo')->name('update.well');
     
     //ACTION GET ROUTES
     Route::get('/well/status/{well_id}','UserController@wellStatus')->name('well.status');
     Route::get('/logout','UserController@userLogout')->name('logout');
     Route::get('/json/depth/wob/{well_id}','AjaxController@graphDepthWobAjax')->name('json.depth_wob');
+    Route::get('/json/zone/data/{zone_id}','AjaxController@zoneDataAjax')->name('json.zone.data');
 });
 
 //AJAX buscas

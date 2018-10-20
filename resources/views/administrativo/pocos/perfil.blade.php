@@ -115,8 +115,8 @@
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#activity" data-toggle="tab">Data</a></li>
-              <li><a href="#settings" data-toggle="tab">Registered Data</a></li>
+              <li><a href="#activity" data-toggle="tab">Data</a></li>
+              <li class="active"><a href="#settings" data-toggle="tab">Registered Data</a></li>
               {{-- <li><a href="#timeline" data-toggle="tab">Alterar Senha</a></li> --}}
               {{-- <li><a href="#bank" data-toggle="tab">Dados de bancários</a></li> --}}
             </ul>
@@ -132,7 +132,7 @@
                 </div>
                 <hr>
               @endif
-              <div class="active tab-pane" id="activity">
+              <div class="tab-pane" id="activity">
                 <!-- Post -->
                 {{-- <div class="post">
                   <div class="user-block">
@@ -204,13 +204,14 @@
                 
               </div>
 
-              <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
+              <div class="active tab-pane" id="settings">
+                <form class="form-horizontal" action="{{route('update.well')}}" method="POST">
+                  @csrf
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">*Title</label>
+                    <label for="inputTitle" class="col-sm-2 control-label">*Title</label>
 
                     <div class="col-sm-10">
-                      <input type="text" name="title" value="{{$well->title}}" class="form-control" id="inputName" placeholder="Title">
+                      <input type="text" name="title" value="{{$well->title}}" class="form-control" id="inputTitle" placeholder="Title">
                     </div>
                   </div>
                   <div class="form-group">
@@ -230,35 +231,33 @@
                     </div>
                   </div>
                   <div class="form-group">
-                      <label for="inputContinente" class="col-sm-2 control-label">Zone</label>
-  
+                      <label for="zoneName" class="col-sm-2 control-label">Zone</label>
                       <div class="col-sm-10">
-                        <input class="form-control" disabled id="inputContinente" placeholder="Zone name">
+                        <select name="zone_id" class="form-control" id="zones">
+                          @foreach($zones as $zone)
+                            @if($zone->id == $well->zone_id)
+                              <option selected value="{{$zone->id}}">{{$zone->name}}</option>
+                            @else
+                              <option value="{{$zone->id}}">{{$zone->name}}</option>
+                            @endif
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                   <div class="form-group">
-                    <label for="inputPais" class="col-sm-2 control-label">Pais</label>
-
-                    <div class="col-sm-10">
-                      <select name="" id="" class="form-control">
-                        <option value="">Pais 1</option>
-                        <option value="">Pais 2</option>
-                        <option value="">Pais 3</option>
-                        <option value="">Pais 4</option>
-                        <option value="">Pais 5</option>
-                        <option value="">Pais 6</option>
-                        <option value="">Pais 7</option>
-                      </select>
-                      {{-- <input type="text" class="form-control" id="inputPais" placeholder="Pais"> --}}
+                    <label for="inputCountry" class="col-sm-2 control-label">Country</label>
+                    <div class="col-sm-10" id="inputCountry">
+                      <input type="text" disabled class="form-control"  placeholder="{{$zone->country->name}}">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputContinente" class="col-sm-2 control-label">Continente</label>
+                    <label for="inputContinent" class="col-sm-2 control-label">Continent</label>
 
-                    <div class="col-sm-10">
-                      <input class="form-control" disabled id="inputContinente" placeholder="Continente X">
+                    <div class="col-sm-10" id="inputContinent">
+                      <input class="form-control" disabled placeholder="{{$zone->country->continent->name}}">
                     </div>
                   </div>
+                  <input type="hidden" hidden name="well_id" value="{{$well->id}}">
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                       <button type="submit" class="btn btn-primary">Alterar</button>
@@ -421,11 +420,11 @@
 <script type="text/javascript">
   $('#zones').on('change', function(e){
       var zone_id = e.target.value;
-      $.get("{{route('json.zone.data')}}?zone_id="+zone_id ,function(data) {
-        $('#country').empty();
-        $('#continent').empty();
-        $('#country').append('<option value="'+ data.country.id +'">'+ data.country.name +'</option>');
-        $('#continent').append('<option value="'+ data.continent.id +'">'+ data.continent.name +'</option>');
+      $.get("{{route('json.zone.data', ['zone_id' => "+zone_id+"])}}",function(data) {
+        $('#inputCountry').empty();
+        $('#inputContinent').empty();
+        $('#inputCountry').append('<option value="'+ data.country.id +'">'+ data.country.name +'</option>');
+        $('#inputContinent').append('<option value="'+ data.continent.id +'">'+ data.continent.name +'</option>');
       });
   });
 </script>

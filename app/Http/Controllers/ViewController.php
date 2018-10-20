@@ -83,8 +83,11 @@ class ViewController extends Controller
                 'danger' => 'Informed well could not be found, select a valid one.'
             ]);
         }
+
+        $zones = Zone::all();
         return view('administrativo.pocos.perfil')->with([
-            'well' => $well
+            'well' => $well,
+            'zones' => $zones
         ]);
     }
     
