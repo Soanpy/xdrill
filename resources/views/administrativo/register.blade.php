@@ -50,7 +50,7 @@
     <form action="{{ route('register') }}" method="post">
         {{csrf_field()}}
       <h3>Personal information</h3>
-      <h5>Obrigatory info are displayed with an "*"</h5>
+      <h5>Mandatory info are displayed with an "*"</h5>
       <div class="form-group has-feedback">
         <label for="">*Full Name</label>
         <input type="text" required name="name" class="form-control" placeholder="Full Name">

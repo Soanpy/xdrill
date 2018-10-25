@@ -18,6 +18,20 @@
     .nao-aparecer {
       display: none;
     }
+    .loader {
+      border: 16px solid #f3f3f3; /* Light grey */
+      border-top: 16px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      margin: auto auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 @endsection
 
@@ -177,9 +191,10 @@
                           <th>RPM</th>
                           <th>WOB</th>
                           <th>TFLO</th>
+                          <th>STOR</th>
                           <th>MSE</th>
                           <th>MI</th>
-                          <th>Option</th>
+                          <th>Options</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -272,7 +287,7 @@
           <!-- /.nav-tabs-custom -->
         </div>
         @if(count($well->datas) > 0)
-          <div class="col-md-12">
+          <div class="col-md-12 align-self-center">
             <button id="depth_wob" class="btn btn-xs btn-primary">WOBxDepth</button>
             <div class="nav-tabs-custom nao-aparecer" id="graphs_div">
                 <div id="main"  style="width:100%; height:400px;"></div>
@@ -368,8 +383,11 @@
   $('#depth_wob').on('click', function(e){
     $('#graphs_div').empty();
     $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append('<div id="loader" class="loader" style="margin: 15px"></div>');
     $('#graphs_div').append('<div id="main" style="width:100%; height:400px;"></div>');
       $.get("{{route('json.depth_wob', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader');
+        element.parentNode.removeChild(element);
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('main'));
 
