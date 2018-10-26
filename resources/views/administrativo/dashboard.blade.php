@@ -121,7 +121,7 @@
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">Last 7 days analyses</h3>
+              <h3 class="box-title">Last 7 well updated</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

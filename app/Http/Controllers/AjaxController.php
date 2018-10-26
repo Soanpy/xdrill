@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+
 use App\Country;
 use App\Well;
 use App\Zone;
@@ -35,16 +38,46 @@ class AjaxController extends Controller
     public function graphDepthWobAjax($well_id){
 
         try{
-            $response = [];
+            $rows = array();
             $well = Well::find($well_id);
             foreach($well->datas as $data){
-                $response['wob'][] = $data->wob;
-                $response['depth'][] = $data->depth;
+                $dado = [];
+                
+                $dado['depth'] = $data->depth;
+                $dado['rop'] = $data->rop;
+                $dado['rpm'] = $data->rpm;                
+                $dado['wob'] = $data->wob; 
+                $dado['tflo'] = $data->tflo; 
+                
+                $rows[] = $dado;
             }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/depth/wob', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
 
+            return response()->json($res);            
+
+            $response = json_decode($res->getBody());
+            // $response = [];
+            // $well = Well::find($well_id);
+            // foreach($well->datas as $data){
+            //     $response['wob'][] = $data->wob;
+            //     $response['depth'][] = $data->depth;
+            // }
+            
             return response()->json($response);
         }catch(\Exception $e){
-            return response()->json(['message' => 'Error trying to get the graph'], 500);
+            echo($e);
+            return response()->json(['message' => $e], 500);
         }        
     }
     public function graphDepthMseAjax($well_id){
