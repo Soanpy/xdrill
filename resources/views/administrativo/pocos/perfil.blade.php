@@ -88,6 +88,15 @@
                 <a href="{{route('well.status', ['well_id' => $well->id])}}" class="btn btn-success btn-block"><b>Activate Well</b></a>
               @endif
               <a href="{{asset('excel_model.xlsx')}}" class="btn btn-primary btn-block" download><b>Download Excel Model</b></a>
+              @if(count($well->datas) > 0)
+                <hr>
+                <button id="graphs" class="btn btn-block btn-primary">Graphs</button>
+                <button id="depthWOB" class="btn btn-block btn-primary">Depth x WOB</button>
+                <button id="depthROP" class="btn btn-block btn-primary">Depth x ROP</button>
+                <button id="depthMSE" class="btn btn-block btn-primary">Depth x MSE</button>
+                <button id="mseWOB" class="btn btn-block btn-primary">WOB x MSE</button>
+                <button id="ropWOB" class="btn btn-block btn-primary">WOB x ROP</button>
+              @endif
               {{-- @if(count($well->analyses) <= 0)
                 <a href="#" class="btn btn-primary btn-block"><b>Generate Analysis</b></a>
               @endif --}}
@@ -288,12 +297,6 @@
         </div>
         @if(count($well->datas) > 0)
           <div class="col-md-12 align-self-center">
-            <button id="graphs" class="btn btn-xs btn-primary">Graphs</button>
-            <button id="depthWOB" class="btn btn-xs btn-primary">Depth x WOB</button>
-            <button id="depthROP" class="btn btn-xs btn-primary">Depth x ROP</button>
-            <button id="depthMSE" class="btn btn-xs btn-primary">Depth x MSE</button>
-            <button id="mseWOB" class="btn btn-xs btn-primary">WOB x MSE</button>
-            <button id="ropWOB" class="btn btn-xs btn-primary">WOB x ROP</button>
             <div class="nav-tabs-custom nao-aparecer" id="graphs_div">
               
             </div>
