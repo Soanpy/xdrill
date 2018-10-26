@@ -288,9 +288,14 @@
         </div>
         @if(count($well->datas) > 0)
           <div class="col-md-12 align-self-center">
-            <button id="depth_wob" class="btn btn-xs btn-primary">WOBxDepth</button>
+            <button id="graphs" class="btn btn-xs btn-primary">Graphs</button>
+            <button id="depthWOB" class="btn btn-xs btn-primary">Depth x WOB</button>
+            <button id="depthROP" class="btn btn-xs btn-primary">Depth x ROP</button>
+            <button id="depthMSE" class="btn btn-xs btn-primary">Depth x MSE</button>
+            <button id="mseWOB" class="btn btn-xs btn-primary">WOB x MSE</button>
+            <button id="ropWOB" class="btn btn-xs btn-primary">WOB x ROP</button>
             <div class="nav-tabs-custom nao-aparecer" id="graphs_div">
-                <div id="main"  style="width:100%; height:400px;"></div>
+              
             </div>
           </div>
         @endif
@@ -307,35 +312,35 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edicao de Dado de Poco</h4>
+                    <h4 class="modal-title">Well data Edit</h4>
                 </div>
                 <form action="" method="">
                     @csrf
                     <div class="modal-body">
                       <div class="form-group">
-                          <label for="profundidade">Profundidade</label>
-                          <input id="profundidade" type="text" name="nome" class="form-control" required>
+                          <label for="profundidade">Depth</label>
+                          <input id="profundidade" type="text" name="depth" class="form-control" required>
                       </div>
                       <div class="form-group">
                           <label for="rop">ROP</label>
-                          <input id="rop" type="text" name="nome" class="form-control" required>
+                          <input id="rop" type="text" name="rop" class="form-control" required>
                       </div>
                       <div class="form-group">
                           <label for="rpm">RPM</label>
-                          <input id="rpm" type="text" name="nome" class="form-control" required>
+                          <input id="rpm" type="text" name="rpm" class="form-control" required>
                       </div>
                       <div class="form-group">
                           <label for="wob">WOB</label>
-                          <input id="wob" type="text" name="nome" class="form-control" required>
+                          <input id="wob" type="text" name="wob" class="form-control" required>
                       </div>
                       <div class="form-group">
                           <label for="tlfo">TLFO</label>
-                          <input id="tlfo" type="text" name="nome" class="form-control" required>
+                          <input id="tlfo" type="text" name="tlfo" class="form-control" required>
                       </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Alterar</button>
+                        <button id="cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Change</button>
                     </div>
                 </form>
             </div>
@@ -355,11 +360,11 @@
                 <form action="" method="">
                     @csrf
                     <div class="modal-body">
-                      <h4>Voce tem certeza que deseja deletar esse dado?</h4>
+                      <h4>Are you sure you want to delete this data?</h4>
                     </div>
                     <div class="modal-footer">
-                        <button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">Nao</button>
-                        <button type="submit" class="btn btn-danger">Sim, deletar</button>
+                        <button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes, delete</button>
                     </div>
                 </form>
             </div>
@@ -380,16 +385,31 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('administrativo/dist/js/demo.js')}}"></script>
 <script type="text/javascript">
-  $('#depth_wob').on('click', function(e){
+  $('#graphs').on('click', function(e){
     $('#graphs_div').empty();
     $('#graphs_div').removeClass('nao-aparecer');
-    $('#graphs_div').append('<div id="loader" class="loader" style="margin: 15px"></div>');
-    $('#graphs_div').append('<div id="main" style="width:100%; height:400px;"></div>');
+    $('#graphs_div').append('<div class="col-md-12" id="primary1" style="width:100%; height:400px;">'+
+                    '<div id="loader1" class="loader" style="margin: 15px"></div>'+
+                    '</div>'+
+                    '<div class="col-md-12" id="primary2" style="width:100%; height:400px;">'+
+                        '<div id="loader2" class="loader" style="margin: 15px"></div>'+
+                    '</div>'+
+                    '<div class="col-md-12" id="secondary1" style="width:100%; height:400px;">'+
+                        '<div id="loader3" class="loader" style="margin: 15px"></div>'+
+                    '</div>'+
+                    '<div class="col-md-12" id="secondary2" style="width:100%; height:400px;">'+
+                        '<div id="loader4" class="loader" style="margin: 15px"></div>'+
+                    '</div>'+
+                    '<div class="col-md-12" id="secondary3" style="width:100%; height:400px;">'+
+                        '<div id="loader5" class="loader" style="margin: 15px"></div>'+
+                    '</div>'
+                    );
+    // $('#graphs_div').append('<div id="main" style="width:100%; height:400px;"></div>');
       $.get("{{route('json.depth_wob', ['well_id' => $well->id])}}", function(data) {
-        var element = document.getElementById('loader');
+        var element = document.getElementById('loader3');
         element.parentNode.removeChild(element);
         // based on prepared DOM, initialize echarts instance
-        var myChart = echarts.init(document.getElementById('main'));
+        var myChart = echarts.init(document.getElementById('secondary1'));
 
         // specify chart configuration item and data
         var option = {
@@ -402,13 +422,386 @@
                 data:['DepthxWOB']
             },
             xAxis: {
-                data: data.depth
+              name: 'Depth, m',
+              data: data.depth
             },
-            yAxis: {},
+            yAxis: {
+              name: 'WOB, klbf'
+            },
             series: [{
                 name: 'Depth',
                 type: 'line',
                 data: data.wob,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+      $.get("{{route('json.depth_rop', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader4');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('secondary2'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'Depth x ROP'
+            },
+            tooltip: {},
+            legend: {
+                data:['DepthxROP']
+            },
+            xAxis: {
+              name: 'Depth, m',
+              data: data.depth
+            },
+            yAxis: {
+              name: 'ROP, m/h'
+            },
+            series: [{
+                name: 'Depth',
+                type: 'line',
+                data: data.rop,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+      $.get("{{route('json.depth_mse', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader5');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('secondary3'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'Depth x MSE'
+            },
+            tooltip: {},
+            legend: {
+                data:['DepthxMSE']
+            },
+            xAxis: {
+              name: 'Depth, m',
+              data: data.depth
+            },
+            yAxis: {
+              name: 'MSE, Psi'
+            },
+            series: [{
+                name: 'Depth',
+                type: 'line',
+                data: data.mse,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+      $.get("{{route('json.wob_mse', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader1');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('primary1'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'WOB x MSE'
+            },
+            tooltip: {},
+            legend: {
+                data:['WOBxMSE']
+            },
+            xAxis: {
+              name: 'WOB, lbf',
+              data: data.wob
+            },
+            yAxis: {
+              name: 'MSE, Psi'
+            },
+            series: [{
+                name: 'WOB',
+                type: 'line',
+                data: data.mse,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+      $.get("{{route('json.rop_wob', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader2');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('primary2'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'WOB x ROP'
+            },
+            tooltip: {},
+            legend: {
+                data:['ROPxWOB']
+            },
+            xAxis: {
+              name: 'WOB, klbf',
+              data: data.wob
+            },
+            yAxis: {
+              name: 'ROP, m/h'
+            },
+            series: [{
+                name: 'ROP',
+                type: 'line',
+                data: data.rop,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+  });
+</script>
+<script type="text/javascript">
+  $('#depthROP').on('click', function(e){
+    $('#graphs_div').empty();
+    $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append(
+                    '<div class="col-md-12" id="secondary2" style="width:100%; height:400px;">'+
+                        '<div id="loader4" class="loader" style="margin: 15px"></div>'+
+                    '</div>'
+                    );
+      $.get("{{route('json.depth_rop', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader4');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('secondary2'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'Depth x ROP'
+            },
+            tooltip: {},
+            legend: {
+                data:['DepthxROP']
+            },
+            xAxis: {
+              name: 'Depth, m',
+              data: data.depth
+            },
+            yAxis: {
+              name: 'ROP, m/h'
+            },
+            series: [{
+                name: 'Depth',
+                type: 'line',
+                data: data.rop,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+  });
+</script>
+<script type="text/javascript">
+  $('#depthWOB').on('click', function(e){
+    $('#graphs_div').empty();
+    $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append(
+                    '<div class="col-md-12" id="secondary1" style="width:100%; height:400px;">'+
+                        '<div id="loader3" class="loader" style="margin: 15px"></div>'+
+                    '</div>'
+                    );
+    // $('#graphs_div').append('<div id="main" style="width:100%; height:400px;"></div>');
+      $.get("{{route('json.depth_wob', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader3');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('secondary1'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'Depth x WOB'
+            },
+            tooltip: {},
+            legend: {
+                data:['DepthxWOB']
+            },
+            xAxis: {
+              name: 'Depth, m',
+              data: data.depth
+            },
+            yAxis: {
+              name: 'WOB, klbf'
+            },
+            series: [{
+                name: 'Depth',
+                type: 'line',
+                data: data.wob,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+  });
+</script>
+<script type="text/javascript">
+  $('#depthMSE').on('click', function(e){
+    $('#graphs_div').empty();
+    $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append(
+                    '<div class="col-md-12" id="secondary3" style="width:100%; height:400px;">'+
+                        '<div id="loader5" class="loader" style="margin: 15px"></div>'+
+                    '</div>'
+                    );
+      $.get("{{route('json.depth_mse', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader5');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('secondary3'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'Depth x MSE'
+            },
+            tooltip: {},
+            legend: {
+                data:['DepthxMSE']
+            },
+            xAxis: {
+              name: 'Depth, m',
+              data: data.depth
+            },
+            yAxis: {
+              name: 'MSE, Psi'
+            },
+            series: [{
+                name: 'Depth',
+                type: 'line',
+                data: data.mse,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+  });
+</script>
+<script type="text/javascript">
+  $('#mseWOB').on('click', function(e){
+    $('#graphs_div').empty();
+    $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append('<div class="col-md-12" id="primary1" style="width:100%; height:400px;">'+
+                    '<div id="loader1" class="loader" style="margin: 15px"></div>'+
+                    '</div>'
+                    );
+      $.get("{{route('json.wob_mse', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader1');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('primary1'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'WOB x MSE'
+            },
+            tooltip: {},
+            legend: {
+                data:['WOBxMSE']
+            },
+            xAxis: {
+              name: 'WOB, lbf',
+              data: data.wob
+            },
+            yAxis: {
+              name: 'MSE, Psi'
+            },
+            series: [{
+                name: 'WOB',
+                type: 'line',
+                data: data.mse,
+                smooth: true
+                // animationDuration: 1000
+            }]
+        };
+
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+      });
+  });
+</script>
+<script type="text/javascript">
+  $('#ropWOB').on('click', function(e){
+    $('#graphs_div').empty();
+    $('#graphs_div').removeClass('nao-aparecer');
+    $('#graphs_div').append(
+                    '<div class="col-md-12" id="primary2" style="width:100%; height:400px;">'+
+                        '<div id="loader2" class="loader" style="margin: 15px"></div>'+
+                    '</div>'
+                    );
+      $.get("{{route('json.rop_wob', ['well_id' => $well->id])}}", function(data) {
+        var element = document.getElementById('loader2');
+        element.parentNode.removeChild(element);
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('primary2'));
+
+        // specify chart configuration item and data
+        var option = {
+            
+            title: {
+                text: 'WOB x ROP'
+            },
+            tooltip: {},
+            legend: {
+                data:['ROPxWOB']
+            },
+            xAxis: {
+              name: 'WOB, klbf',
+              data: data.wob
+            },
+            yAxis: {
+              name: 'ROP, m/h'
+            },
+            series: [{
+                name: 'ROP',
+                type: 'line',
+                data: data.rop,
                 smooth: true
                 // animationDuration: 1000
             }]

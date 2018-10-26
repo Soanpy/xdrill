@@ -47,4 +47,65 @@ class AjaxController extends Controller
             return response()->json(['message' => 'Error trying to get the graph'], 500);
         }        
     }
+    public function graphDepthMseAjax($well_id){
+
+        try{
+            $response = [];
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $response['mse'][] = $data->mse;
+                $response['depth'][] = $data->depth;
+            }
+
+            return response()->json($response);
+        }catch(\Exception $e){
+            return response()->json(['message' => 'Error trying to get the graph'], 500);
+        }        
+    }
+    public function graphDepthRopAjax($well_id){
+
+        try{
+            $response = [];
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $response['rop'][] = $data->rop;
+                $response['depth'][] = $data->depth;
+            }
+
+            return response()->json($response);
+        }catch(\Exception $e){
+            return response()->json(['message' => 'Error trying to get the graph'], 500);
+        }        
+    }
+    public function graphRopWobAjax($well_id){
+
+        try{
+            $response = [];
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $response['rop'][] = $data->rop;
+                $response['wob'][] = $data->wob;
+            }
+
+            return response()->json($response);
+        }catch(\Exception $e){
+            return response()->json(['message' => 'Error trying to get the graph'], 500);
+        }        
+    }
+    
+    public function graphMseWobAjax($well_id){
+
+        try{
+            $response = [];
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $response['mse'][] = $data->mse;
+                $response['wob'][] = $data->wob;
+            }
+
+            return response()->json($response);
+        }catch(\Exception $e){
+            return response()->json(['message' => 'Error trying to get the graph'], 500);
+        }        
+    }
 }
