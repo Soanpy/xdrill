@@ -42,14 +42,23 @@ class AjaxController extends Controller
             $well = Well::find($well_id);
             foreach($well->datas as $data){
                 $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
                 
-                $dado['depth'] = $data->depth;
-                $dado['rop'] = $data->rop;
-                $dado['rpm'] = $data->rpm;                
-                $dado['wob'] = $data->wob; 
-                $dado['tflo'] = $data->tflo; 
-                
-                $rows[] = $dado;
             }
             
             $guzzle = new Client();
@@ -64,15 +73,7 @@ class AjaxController extends Controller
                 'body' => $params,
             ]);
 
-            return response()->json($res);            
-
             $response = json_decode($res->getBody());
-            // $response = [];
-            // $well = Well::find($well_id);
-            // foreach($well->datas as $data){
-            //     $response['wob'][] = $data->wob;
-            //     $response['depth'][] = $data->depth;
-            // }
             
             return response()->json($response);
         }catch(\Exception $e){
@@ -83,62 +84,388 @@ class AjaxController extends Controller
     public function graphDepthMseAjax($well_id){
 
         try{
-            $response = [];
+            $rows = array();
             $well = Well::find($well_id);
             foreach($well->datas as $data){
-                $response['mse'][] = $data->mse;
-                $response['depth'][] = $data->depth;
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
             }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/depth/mse', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
 
+            $response = json_decode($res->getBody());
+            
             return response()->json($response);
         }catch(\Exception $e){
-            return response()->json(['message' => 'Error trying to get the graph'], 500);
+            echo($e);
+            return response()->json(['message' => $e], 500);
         }        
     }
     public function graphDepthRopAjax($well_id){
 
         try{
-            $response = [];
+            $rows = array();
             $well = Well::find($well_id);
             foreach($well->datas as $data){
-                $response['rop'][] = $data->rop;
-                $response['depth'][] = $data->depth;
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
             }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/depth/rop', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
 
+            $response = json_decode($res->getBody());
+            
             return response()->json($response);
         }catch(\Exception $e){
-            return response()->json(['message' => 'Error trying to get the graph'], 500);
-        }        
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }       
     }
     public function graphRopWobAjax($well_id){
 
         try{
-            $response = [];
+            $rows = array();
             $well = Well::find($well_id);
             foreach($well->datas as $data){
-                $response['rop'][] = $data->rop;
-                $response['wob'][] = $data->wob;
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
             }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/graph/rop', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
 
-            return response()->json($response);
+            $response = json_decode($res->getBody());
+
+            $resposta = array();
+            foreach($response->ROP_WOB as $key => $data){
+                $dados = array();
+                $resposta['wob'][] = $data;
+                $resposta['rop'][] = $key;
+            }
+            
+            return response()->json($resposta);
         }catch(\Exception $e){
-            return response()->json(['message' => 'Error trying to get the graph'], 500);
-        }        
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }       
     }
     
     public function graphMseWobAjax($well_id){
 
         try{
-            $response = [];
+            $rows = array();
             $well = Well::find($well_id);
             foreach($well->datas as $data){
-                $response['mse'][] = $data->mse;
-                $response['wob'][] = $data->wob;
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
             }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/graph/mse', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
 
+            $response = json_decode($res->getBody());
+
+            $resposta = array();
+            foreach($response->MSE_WOB as $key => $data){
+                $dados = array();
+                $resposta['wob'][] = $data;
+                $resposta['mse'][] = $key;
+            }
+            
+            return response()->json($resposta);
+        }catch(\Exception $e){
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }      
+    }
+
+    public function idealMseAjax($well_id){
+
+        try{
+            $rows = array();
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
+            }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/ideal/mse', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
+
+            $response = json_decode($res->getBody());
+            
             return response()->json($response);
         }catch(\Exception $e){
-            return response()->json(['message' => 'Error trying to get the graph'], 500);
-        }        
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }      
+    }
+    
+    public function idealRopAjax($well_id){
+
+        try{
+            $rows = array();
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
+            }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/ideal/rop', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
+
+            $response = json_decode($res->getBody());
+            
+            return response()->json($response);
+        }catch(\Exception $e){
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }      
+    }
+
+    public function idealWobAjax($well_id){
+
+        try{
+            $rows = array();
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
+            }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/ideal/wob', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
+
+            $response = json_decode($res->getBody());
+            
+            return response()->json($response);
+        }catch(\Exception $e){
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }      
+    }
+
+    public function idealWob2Ajax($well_id){
+
+        try{
+            $rows = array();
+            $well = Well::find($well_id);
+            foreach($well->datas as $data){
+                $dado = [];
+                if(
+                    !$data->rop ||
+                    !$data->depth ||
+                    !$data->rpm ||
+                    !$data->wob ||
+                    !$data->tflo
+                ){
+                    continue;
+                }else{
+                    $dado['depth'] = $data->depth;
+                    $dado['rop'] = $data->rop;
+                    $dado['rpm'] = $data->rpm;                
+                    $dado['wob'] = $data->wob; 
+                    $dado['tflo'] = $data->tflo; 
+                    $rows[] = $dado;
+                }
+                
+            }
+            
+            $guzzle = new Client();
+            
+            $params = json_encode([
+                'rows' => $rows
+            ]);
+            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/ideal/wob2', [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => $params,
+            ]);
+
+            $response = json_decode($res->getBody());
+            
+            return response()->json($response);
+        }catch(\Exception $e){
+            echo($e);
+            return response()->json(['message' => $e], 500);
+        }      
     }
 }

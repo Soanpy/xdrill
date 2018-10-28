@@ -96,7 +96,11 @@
                 <button id="depthMSE" class="btn btn-block btn-primary">Depth x MSE</button>
                 <button id="mseWOB" class="btn btn-block btn-primary">WOB x MSE</button>
                 <button id="ropWOB" class="btn btn-block btn-primary">WOB x ROP</button>
+                <button id="idealParams" class="btn btn-block btn-primary">Ideal parameters</button>
               @endif
+              <div class="col-md-12 nao-aparecer" id="dados">
+
+              </div>
               {{-- @if(count($well->analyses) <= 0)
                 <a href="#" class="btn btn-primary btn-block"><b>Generate Analysis</b></a>
               @endif --}}
@@ -305,7 +309,6 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
-
     </section>  
 
     <div class="modal fade" id="modalEditar" role="dialog">
@@ -391,6 +394,9 @@
   $('#graphs').on('click', function(e){
     $('#graphs_div').empty();
     $('#graphs_div').removeClass('nao-aparecer');
+    $('#dados').empty();
+    $('#dados').removeClass('nao-aparecer');
+    $('#dados').append('<hr>');
     $('#graphs_div').append('<div class="col-md-12" id="primary1" style="width:100%; height:400px;">'+
                     '<div id="loader1" class="loader" style="margin: 15px"></div>'+
                     '</div>'+
@@ -582,6 +588,18 @@
 
         // use configuration item and data specified to show chart
         myChart.setOption(option);
+      });
+      $.get("{{route('json.ideal_wob', ['well_id' => $well->id])}}", function(data) {
+        $('#dados').append('<p><b>Ideal WOB</b><br>'+data.WOB+' </p>');
+      });
+      $.get("{{route('json.ideal_wob2', ['well_id' => $well->id])}}", function(data) {
+        $('#dados').append('<p><b>Ideal WOB2</b><br>'+data.WOB2+' </p>');
+      });
+      $.get("{{route('json.ideal_rop', ['well_id' => $well->id])}}", function(data) {
+        $('#dados').append('<p><b>Ideal ROP</b><br>'+data.ROP+' </p>');
+      });
+      $.get("{{route('json.ideal_mse', ['well_id' => $well->id])}}", function(data) {
+        $('#dados').append('<p><b>Ideal MSE</b><br>'+data.MSE+' </p>');
       });
   });
 </script>
@@ -813,6 +831,27 @@
         // use configuration item and data specified to show chart
         myChart.setOption(option);
       });
+  });
+</script>
+<script type="text/javascript">
+  $('#idealParams').on('click', function(e){
+
+    $('#dados').empty();
+    $('#dados').removeClass('nao-aparecer');
+    $('#dados').append('<hr>');
+
+    $.get("{{route('json.ideal_wob', ['well_id' => $well->id])}}", function(data) {
+      $('#dados').append('<p><b>Ideal WOB</b><br>'+data.WOB+' </p>');
+    });
+    $.get("{{route('json.ideal_wob2', ['well_id' => $well->id])}}", function(data) {
+      $('#dados').append('<p><b>Ideal WOB2</b><br>'+data.WOB2+' </p>');
+    });
+    $.get("{{route('json.ideal_rop', ['well_id' => $well->id])}}", function(data) {
+      $('#dados').append('<p><b>Ideal ROP</b><br>'+data.ROP+' </p>');
+    });
+    $.get("{{route('json.ideal_mse', ['well_id' => $well->id])}}", function(data) {
+      $('#dados').append('<p><b>Ideal MSE</b><br>'+data.MSE+' </p>');
+    });
   });
 </script>
 
