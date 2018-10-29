@@ -71,7 +71,7 @@
             <li><a href="{{ route('user.pocos') }}"><i class="fa fa-circle-o"></i> Registered wells</a></li>
           </ul>
         </li> 
-        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Report</span></a></li>
+        {{-- <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Report</span></a></li> --}}
         <li><a href="#"><i class="fa fa-envelope"></i> <span>Contact</span></a></li>
         @if(Auth::user()->type == 'ADMIN')
           <li class="treeview">
