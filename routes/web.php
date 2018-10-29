@@ -32,6 +32,7 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::get('/wells','ViewController@userWells')->name('user.pocos');
     Route::get('/create/zone','ViewController@createZone')->name('create.zone');
     Route::get('/zones','ViewController@zones')->name('zones');
+    Route::get('/contact/admin','ViewController@contactAdmin')->name('contact.admin');
     
     //POST ROUTES
     Route::post('/register/well','UserController@registerWell')->name('register.well');
@@ -43,6 +44,7 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::post('/edit/zone', 'UserController@updateZone')->name('edit.zone.name');
     Route::post('/import/well/data', 'UserController@importWellData')->name('import.well.data');
     Route::post('/update/well/info', 'UserController@updateWellInfo')->name('update.well');
+    Route::post('/send/message', 'UserController@sendUserMessage')->name('send.message');
     
     //ACTION GET ROUTES
     Route::get('/well/status/{well_id}','UserController@wellStatus')->name('well.status');

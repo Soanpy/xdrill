@@ -122,4 +122,9 @@ class ViewController extends Controller
     {
         return view('administrativo.zones.zones');
     }
+
+    public function contactAdmin()
+    {
+        return view('administrativo.mensagem');
+    }
 }

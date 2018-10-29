@@ -20,9 +20,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>CLI</b></span>
+      <span class="logo-mini"><b>{{mb_substr(Auth::user()->name, 0, 3)}}</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>CLIENTE</b></span>
+      <span class="logo-lg"><b>{{ Auth::user()->name }}</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -38,14 +38,14 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
+      <div class="user-panel" style="padding: 25px;margin-bottom:20px">
+        {{-- <div class="pull-left image">
           <img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
+        </div> --}}
+        <div class="pull-left info" style="margin-bottom: 100px">
           {{-- <p>Nome X</p> --}}
-          <p>{{ Auth::user()->name }}</p>
-          <a href="#"><i class="fa fa-circle text-warning"></i>{{Auth::user()->company?Auth::user()->company->name:"No company"}}</a>
+          <p>{{Auth::user()->company?Auth::user()->company->name:"No company"}}</p>
+          {{-- <a href="#"><i class="fa fa-circle text-warning"></i></a> --}}
         </div>
       </div>
 
@@ -72,7 +72,7 @@
           </ul>
         </li> 
         {{-- <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Report</span></a></li> --}}
-        <li><a href="#"><i class="fa fa-envelope"></i> <span>Contact</span></a></li>
+        <li><a href="{{ route('contact.admin') }}"><i class="fa fa-envelope"></i> <span>Contact</span></a></li>
         @if(Auth::user()->type == 'ADMIN')
           <li class="treeview">
             <a href="#">

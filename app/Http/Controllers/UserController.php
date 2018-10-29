@@ -12,6 +12,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
+use App\Mail\ContactAdmin;
+
 use App\Analysis;
 use App\Company;
 use App\Continent;
@@ -504,6 +506,28 @@ class UserController extends Controller
             $telemetria = new Telemetry;
             $telemetria->user_id = Auth::user()->id??0;
             $telemetria->method = 'updateWellInfo';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
+    public function sendUserMessage(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string'
+        ]);
+        try{
+
+            Mail::to('yurisoarespinheiro@gmail.com')->send(new ContactAdmin(Auth::user(), $request->message));
+
+            return redirect()->back()->with(['success' => 'Your message was sent by email to the Admin!']);
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'sendUserMessage';
             $telemetria->controller = 'UserController';
             $telemetria->description = $e->getMessage();
             $telemetria->save();

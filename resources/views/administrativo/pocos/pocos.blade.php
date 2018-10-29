@@ -50,22 +50,22 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Photo</th>
+                            {{-- <th>Photo</th> --}}
                             <th>Title</th>
                             <th>Creation date</th>
                             <th>Creator</th>
-                            <th>Options</th>
+                            {{-- <th>Options</th> --}}
                         </tr>
                     </thead>
                     <tbody>
 
                         @foreach(Auth::user()->wells as $well)
                             <tr>
-                                <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td>
+                                {{-- <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'"><img src="{{ asset('administrativo/dist/img/user2-160x160.jpg') }}" class="img-circle" height="40px" width="40px" alt="User Image"></td> --}}
                                 <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'">{{$well->title}}</td>
                                 <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'">{{ date('d/m/Y', strtotime($well->created_at)) }}</td>
                                 <td style="cursor: pointer" onclick="location.href='{{ route("user.well", ['well_id' => $well->id]) }}'">{{$well->user->name}}</td>
-                                <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td>
+                                {{-- <td><a href="#" class="btn btn-xs btn-primary">Editar</a></td> --}}
                             </tr>
                         @endforeach
 
