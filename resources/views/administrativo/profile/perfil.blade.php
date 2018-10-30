@@ -18,7 +18,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-          Meu Perfil
+          My Profile
         </h1>
         
       </section>
