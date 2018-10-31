@@ -59,8 +59,8 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::get('/json/ideal/wob2/{well_id}','AjaxController@idealWob2Ajax')->name('json.ideal_wob2');
     Route::get('/json/ideal/rop/{well_id}','AjaxController@idealRopAjax')->name('json.ideal_rop');
     Route::get('/json/zone/data/{zone_id}','AjaxController@zoneDataAjax')->name('json.zone.data');
-    Route::get('/update/well/data','AjaxController@updateWellData')->name('update.data');
-    Route::get('/view/well/data','AjaxController@viewUpdateDataWell')->name('update.well.data');
+    Route::get('/update/well/data','UserController@updateWellData')->name('update.data');
+    Route::get('/view/well/data','UserController@viewUpdateDataWell')->name('update.well.data');
     Route::get('/delete/data/{data_id}','AjaxController@deleteWellData')->name('delete.well.data');
 });
 
