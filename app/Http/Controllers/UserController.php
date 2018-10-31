@@ -539,7 +539,7 @@ class UserController extends Controller
     public function viewUpdateWellData(Request $request)
     {
 		$data = Data::find($request->data_id);
-		// dd($array_dias);
+		dd($data);
 		return view('administrativo.ajax_info_produto')->with([
 			'data' => $data
 		]);
