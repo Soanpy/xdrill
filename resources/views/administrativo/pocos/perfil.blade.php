@@ -207,7 +207,7 @@
                           <th>STOR</th>
                           <th>MSE</th>
                           <th>MI</th>
-                          <th>Options</th>
+                          {{-- <th>Options</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -221,11 +221,11 @@
                             <td>{{$data->stor}}</td>
                             <td>{{$data->mse}}</td>
                             <td>{{$data->mi}}</td>
-                            <td>
-                              {{-- <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalEditar"></a> --}}
+                            {{-- <td>
+                              <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalEditar"></a>
                               <a data-toggle="modal" data-target="#modalEditar" onclick="passaKey({{$data->id}})" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>
                               <a href="#" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalDeletar{{$key_data}}"><i class="fa fa-trash"></i></a>
-                            </td>
+                            </td> --}}
                         </tr>
 
                         <div class="modal fade" id="modalDeletar{{$key_data}}" role="dialog">
