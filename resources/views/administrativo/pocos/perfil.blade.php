@@ -224,7 +224,7 @@
                             <td>
                               {{-- <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalEditar"></a> --}}
                               <a data-toggle="modal" data-target="#modalEditar" onclick="passaKey({{$data->id}})" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>
-                              <a href="#" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalDeletar{{$key}}"><i class="fa fa-trash"></i></a>
+                              <a href="#" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalDeletar{{$key_data}}"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
 
