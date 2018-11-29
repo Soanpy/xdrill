@@ -536,4 +536,65 @@ class UserController extends Controller
         }
     }
 
+    public function viewUpdateWellData(Request $request)
+    {
+		$data = Data::find($request->data_id);
+		// dd($data);
+		return view('administrativo.ajax_info_produto')->with([
+			'data' => $data
+		]);
+    }
+
+    public function updateWellData(Request $request)
+    {
+        try{
+            $request->validate([
+                'data_id' => 'required|exists:data,id',
+                'tflo' => 'required',
+                'wob' => 'required',
+                'rop' => 'required',
+                'rpm' => 'required',
+                'depth' => 'required'
+            ]);
+
+            $data = Data::find($request->data_id);
+            $data->tflo = $request->tflo;
+            $data->wob = $request->wob;
+            $data->rop = $request->rop;
+            $data->rpm = $request->rpm;
+            $data->depth = $request->depth;
+            $dat->update();
+
+            return redirect()->back()->with('success', 'Data successfully updated');
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'updateWellData';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
+    public function deleteWellData($data_id)
+    {
+        try {
+            $data = Data::find($data_id);
+
+            $data->delete();
+            return redirect()->back()->with('success', 'Data deleted with success!');
+        }catch(\Exception $e){
+            $telemetria = new Telemetry;
+            $telemetria->user_id = Auth::user()->id??0;
+            $telemetria->method = 'deleteWellData';
+            $telemetria->controller = 'UserController';
+            $telemetria->description = $e->getMessage();
+            $telemetria->save();
+
+            return redirect()->back()->with(['danger' => 'Oops, something went wrong with your request']);
+        }
+    }
+
 }
