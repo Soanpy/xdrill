@@ -386,6 +386,11 @@
 <script src="{{asset('administrativo/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('administrativo/bower_components/fastclick/lib/fastclick.js')}}"></script>
+<!--Arquivo do processador de dados do gráfico-->
+<script src="{{asset('js/ecStat.js')}}"></script>
+<script src='https://cdn.bootcss.com/echarts/3.4.0/echarts.js'></script>
+<!--acaba aqui-->
+<script src="{{asset('administrativo/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('administrativo/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
@@ -525,29 +530,93 @@
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('primary1'));
 
-        // specify chart configuration item and data
-        var option = {
-            
-            title: {
-                text: 'WOB x MSE'
+        // based on prepared DOM, initialize echarts instance
+        var myRegression = ecStat.regression('polynomial', data, 2);
+
+        myRegression.points.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+
+        option = {
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
             },
-            tooltip: {},
-            legend: {
-                data:['WOBxMSE']
+            title: {
+                text: 'WOB x MSE graph',
+                subtext: 'By ecStat.regression',
+                sublink: 'https://github.com/ecomfe/echarts-stat',
+                left: 'center',
+                top: 16
             },
             xAxis: {
-              name: 'WOB, lbf',
-              data: data.wob
+                type: 'value',
+                name: 'WOB, lbf',
+                min: 10,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                splitNumber: 20
             },
             yAxis: {
-              name: 'MSE, Psi'
+                type: 'value',
+                name: 'MSE, psi',
+                // min: -40,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                }
+            },
+            grid: {
+                top: 90
             },
             series: [{
-                name: 'WOB',
+                name: 'scatter',
+                type: 'scatter',
+                label: {
+                    emphasis: {
+                        show: true,
+                        position: 'right',
+                        textStyle: {
+                            color: 'blue',
+                            fontSize: 16
+                        }
+                    }
+                },
+                data: data
+            }, {
+                name: 'line',
                 type: 'line',
-                data: data.mse,
-                smooth: true
-                // animationDuration: 1000
+                smooth: true,
+                showSymbol: false,
+                data: myRegression.points,
+                markPoint: {
+                    itemStyle: {
+                        normal: {
+                            color: 'transparent'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'left',
+                            formatter: myRegression.expression,
+                            textStyle: {
+                                color: '#000',
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    data: [{
+                        coord: myRegression.points[myRegression.points.length - 1]
+                    }]
+                }
             }]
         };
 
@@ -560,31 +629,149 @@
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('primary2'));
 
-        // specify chart configuration item and data
-        var option = {
-            
-            title: {
-                text: 'WOB x ROP'
+        var myRegression = ecStat.regression('polynomial', data, 2);
+
+        myRegression.points.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+
+        option = {
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
             },
-            tooltip: {},
-            legend: {
-                data:['ROPxWOB']
+            title: {
+                text: 'WOB x ROP graph',
+                subtext: 'By ecStat.regression',
+                sublink: 'https://github.com/ecomfe/echarts-stat',
+                left: 'center',
+                top: 16
             },
             xAxis: {
-              name: 'WOB, klbf',
-              data: data.wob
+                type: 'value',
+                name: 'WOB, lbf',
+                min: 10,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                splitNumber: 20
             },
             yAxis: {
-              name: 'ROP, m/h'
+                type: 'value',
+                name: 'ROP, m/h',
+                // min: -40,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                }
             },
+            grid: {
+                top: 90
+            },
+            // dataZoom: [
+            //   {
+            //       type: 'slider',
+            //       show: true,
+            //       xAxisIndex: [0],
+            //       start: 10,
+            //       end: 50
+            //   },
+            //   {
+            //       type: 'slider',
+            //       show: true,
+            //       yAxisIndex: [0],
+            //       left: '93%',
+            //       start: 29,
+            //       end: 36
+            //   },
+            //   {
+            //       type: 'inside',
+            //       xAxisIndex: [0],
+            //       start: 1,
+            //       end: 35
+            //   },
+            //   {
+            //       type: 'inside',
+            //       yAxisIndex: [0],
+            //       start: 29,
+            //       end: 36
+            //   }
+            // ],
             series: [{
-                name: 'ROP',
+                name: 'scatter',
+                type: 'scatter',
+                label: {
+                    emphasis: {
+                        show: true,
+                        position: 'right',
+                        textStyle: {
+                            color: 'blue',
+                            fontSize: 16
+                        }
+                    }
+                },
+                data: data
+            }, {
+                name: 'line',
                 type: 'line',
-                data: data.rop,
-                smooth: true
-                // animationDuration: 1000
+                smooth: true,
+                showSymbol: true,
+                data: myRegression.points,
+                markPoint: {
+                    itemStyle: {
+                        normal: {
+                            color: 'transparent'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'left',
+                            formatter: myRegression.expression,
+                            textStyle: {
+                                color: '#000',
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    data: [{
+                        coord: myRegression.points[myRegression.points.length - 1]
+                    }]
+                }
             }]
         };
+
+        // specify chart configuration item and data
+        // var option = {
+            
+        //     title: {
+        //         text: 'WOB x ROP'
+        //     },
+        //     tooltip: {},
+        //     legend: {
+        //         data:['ROPxWOB']
+        //     },
+        //     xAxis: {
+        //       name: 'WOB, klbf',
+        //       data: data.wob
+        //     },
+        //     yAxis: {
+        //       name: 'ROP, m/h'
+        //     },
+        //     series: [{
+        //         name: 'ROP',
+        //         type: 'line',
+        //         data: data.rop,
+        //         smooth: true
+        //         // animationDuration: 1000
+        //     }]
+        // };
 
         // use configuration item and data specified to show chart
         myChart.setOption(option);
@@ -751,38 +938,128 @@
                     '</div>'
                     );
       $.get("{{route('json.wob_mse', ['well_id' => $well->id])}}", function(data) {
+        console.log(data);
         var element = document.getElementById('loader1');
         element.parentNode.removeChild(element);
-        // based on prepared DOM, initialize echarts instance
-        var myChart = echarts.init(document.getElementById('primary1'));
 
-        // specify chart configuration item and data
-        var option = {
-            
-            title: {
-                text: 'WOB x MSE'
+        var myChart = echarts.init(document.getElementById('primary1'));
+        // based on prepared DOM, initialize echarts instance
+        var myRegression = ecStat.regression('polynomial', data, 2);
+
+        myRegression.points.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+
+        option = {
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
             },
-            tooltip: {},
-            legend: {
-                data:['WOBxMSE']
+            title: {
+                text: 'WOB x MSE graph',
+                subtext: 'By ecStat.regression',
+                sublink: 'https://github.com/ecomfe/echarts-stat',
+                left: 'center',
+                top: 16
             },
             xAxis: {
-              name: 'WOB, lbf',
-              data: data.wob
+                type: 'value',
+                name: 'WOB, lbf',
+                min: 10,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                splitNumber: 20
             },
             yAxis: {
-              name: 'MSE, Psi'
+                type: 'value',
+                name: 'MSE, psi',
+                // min: -40,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                }
+            },
+            grid: {
+                top: 90
             },
             series: [{
-                name: 'WOB',
+                name: 'scatter',
+                type: 'scatter',
+                label: {
+                    emphasis: {
+                        show: true,
+                        position: 'right',
+                        textStyle: {
+                            color: 'blue',
+                            fontSize: 16
+                        }
+                    }
+                },
+                data: data
+            }, {
+                name: 'line',
                 type: 'line',
-                data: data.mse,
-                smooth: true
-                // animationDuration: 1000
+                smooth: true,
+                showSymbol: false,
+                data: myRegression.points,
+                markPoint: {
+                    itemStyle: {
+                        normal: {
+                            color: 'transparent'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'left',
+                            formatter: myRegression.expression,
+                            textStyle: {
+                                color: '#333',
+                                fontSize: 14
+                            }
+                        }
+                    },
+                    data: [{
+                        coord: myRegression.points[myRegression.points.length - 1]
+                    }]
+                }
             }]
         };
 
-        // use configuration item and data specified to show chart
+        // // specify chart configuration item and data
+        // var option = {
+            
+        //     title: {
+        //         text: 'WOB x MSE'
+        //     },
+        //     tooltip: {},
+        //     legend: {
+        //         data:['WOBxMSE']
+        //     },
+        //     xAxis: {
+        //       name: 'WOB, lbf',
+        //       data: data.wob
+        //     },
+        //     yAxis: {
+        //       name: 'MSE, Psi'
+        //     },
+        //     series: [{
+        //         name: 'WOB',
+        //         type: 'line',
+        //         data: data.mse,
+        //         smooth: true
+        //         // animationDuration: 1000
+        //     }]
+        // };
+
+        // // use configuration item and data specified to show chart
         myChart.setOption(option);
       });
   });
@@ -802,31 +1079,149 @@
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('primary2'));
 
-        // specify chart configuration item and data
-        var option = {
-            
-            title: {
-                text: 'WOB x ROP'
+        var myRegression = ecStat.regression('polynomial', data, 2);
+
+        myRegression.points.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+
+        option = {
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
             },
-            tooltip: {},
-            legend: {
-                data:['ROPxWOB']
+            title: {
+                text: 'WOB x ROP graph',
+                subtext: 'By ecStat.regression',
+                sublink: 'https://github.com/ecomfe/echarts-stat',
+                left: 'center',
+                top: 16
             },
             xAxis: {
-              name: 'WOB, klbf',
-              data: data.wob
+                type: 'value',
+                name: 'WOB, lbf',
+                min: 10,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                splitNumber: 20
             },
             yAxis: {
-              name: 'ROP, m/h'
+                type: 'value',
+                name: 'ROP, m/h',
+                // min: -40,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                }
             },
+            grid: {
+                top: 90
+            },
+            // dataZoom: [
+            //   {
+            //       type: 'slider',
+            //       show: true,
+            //       xAxisIndex: [0],
+            //       start: 10,
+            //       end: 50
+            //   },
+            //   {
+            //       type: 'slider',
+            //       show: true,
+            //       yAxisIndex: [0],
+            //       left: '93%',
+            //       start: 29,
+            //       end: 36
+            //   },
+            //   {
+            //       type: 'inside',
+            //       xAxisIndex: [0],
+            //       start: 1,
+            //       end: 35
+            //   },
+            //   {
+            //       type: 'inside',
+            //       yAxisIndex: [0],
+            //       start: 29,
+            //       end: 36
+            //   }
+            // ],
             series: [{
-                name: 'ROP',
+                name: 'scatter',
+                type: 'scatter',
+                label: {
+                    emphasis: {
+                        show: true,
+                        position: 'right',
+                        textStyle: {
+                            color: 'blue',
+                            fontSize: 16
+                        }
+                    }
+                },
+                data: data
+            }, {
+                name: 'line',
                 type: 'line',
-                data: data.rop,
-                smooth: true
-                // animationDuration: 1000
+                smooth: true,
+                showSymbol: true,
+                data: myRegression.points,
+                markPoint: {
+                    itemStyle: {
+                        normal: {
+                            color: 'transparent'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'left',
+                            formatter: myRegression.expression,
+                            textStyle: {
+                                color: '#000',
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    data: [{
+                        coord: myRegression.points[myRegression.points.length - 1]
+                    }]
+                }
             }]
         };
+
+        // specify chart configuration item and data
+        // var option = {
+            
+        //     title: {
+        //         text: 'WOB x ROP'
+        //     },
+        //     tooltip: {},
+        //     legend: {
+        //         data:['ROPxWOB']
+        //     },
+        //     xAxis: {
+        //       name: 'WOB, klbf',
+        //       data: data.wob
+        //     },
+        //     yAxis: {
+        //       name: 'ROP, m/h'
+        //     },
+        //     series: [{
+        //         name: 'ROP',
+        //         type: 'line',
+        //         data: data.rop,
+        //         smooth: true
+        //         // animationDuration: 1000
+        //     }]
+        // };
 
         // use configuration item and data specified to show chart
         myChart.setOption(option);

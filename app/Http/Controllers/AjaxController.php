@@ -178,6 +178,7 @@ class AjaxController extends Controller
         try{
             $rows = array();
             $well = Well::find($well_id);
+            $resposta = array();
             foreach($well->datas as $data){
                 $dado = [];
                 if(
@@ -195,30 +196,35 @@ class AjaxController extends Controller
                     $dado['wob'] = $data->wob; 
                     $dado['tflo'] = $data->tflo; 
                     $rows[] = $dado;
+
+                    $dados = array();
+                    $dados[] = $data->wob;
+                    $dados[] = $data->rop;
+                    $resposta[] = $dados;
                 }
                 
             }
             
-            $guzzle = new Client();
+            // $guzzle = new Client();
             
-            $params = json_encode([
-                'rows' => $rows
-            ]);
-            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/graph/rop', [
-                'headers' => [
-                    'Content-Type' => 'application/json'
-                ],
-                'body' => $params,
-            ]);
+            // $params = json_encode([
+            //     'rows' => $rows
+            // ]);
+            // $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/graph/rop', [
+            //     'headers' => [
+            //         'Content-Type' => 'application/json'
+            //     ],
+            //     'body' => $params,
+            // ]);
 
-            $response = json_decode($res->getBody());
+            // $response = json_decode($res->getBody());
 
-            $resposta = array();
-            foreach($response->ROP_WOB as $key => $data){
-                $dados = array();
-                $resposta['wob'][] = $data;
-                $resposta['rop'][] = $key;
-            }
+            // $resposta = array();
+            // foreach($response->ROP_WOB as $key => $data){
+            //     $dados = array();
+            //     $resposta['wob'][] = $data;
+            //     $resposta['rop'][] = $key;
+            // }
             
             return response()->json($resposta);
         }catch(\Exception $e){
@@ -232,6 +238,7 @@ class AjaxController extends Controller
         try{
             $rows = array();
             $well = Well::find($well_id);
+            $resposta = array();
             foreach($well->datas as $data){
                 $dado = [];
                 if(
@@ -249,30 +256,36 @@ class AjaxController extends Controller
                     $dado['wob'] = $data->wob; 
                     $dado['tflo'] = $data->tflo; 
                     $rows[] = $dado;
+
+                    $dados = array();
+                    $dados[] = $data->wob;
+                    $dados[] = $data->mse;
+                    $resposta[] = $dados;
                 }
+
                 
             }
             
-            $guzzle = new Client();
+            // $guzzle = new Client();
             
-            $params = json_encode([
-                'rows' => $rows
-            ]);
-            $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/graph/mse', [
-                'headers' => [
-                    'Content-Type' => 'application/json'
-                ],
-                'body' => $params,
-            ]);
+            // $params = json_encode([
+            //     'rows' => $rows
+            // ]);
+            // $res = $guzzle->request('POST', 'https://xdrill.herokuapp.com/api/v1/xdrill/graph/mse', [
+            //     'headers' => [
+            //         'Content-Type' => 'application/json'
+            //     ],
+            //     'body' => $params,
+            // ]);
 
-            $response = json_decode($res->getBody());
+            // $response = json_decode($res->getBody());
 
-            $resposta = array();
-            foreach($response->MSE_WOB as $key => $data){
-                $dados = array();
-                $resposta['wob'][] = $data;
-                $resposta['mse'][] = $key;
-            }
+            // foreach($response->MSE_WOB as $key => $data){
+            //     $dados = array();
+            //     $dados[] = $data;
+            //     $dados[] = $key;
+            //     $resposta[] = $dados;
+            // }
             
             return response()->json($resposta);
         }catch(\Exception $e){
