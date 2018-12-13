@@ -52,7 +52,7 @@ Route::middleware(['user'])->prefix('system')->group(function(){
     Route::get('/json/depth/wob/{well_id}','AjaxController@graphDepthWobAjax')->name('json.depth_wob');
     Route::get('/json/depth/rop/{well_id}','AjaxController@graphDepthRopAjax')->name('json.depth_rop');
     Route::get('/json/depth/mse/{well_id}','AjaxController@graphDepthMseAjax')->name('json.depth_mse');
-    Route::get('/json/mse/wob/{well_id}','AjaxController@graphMseWobAjax')->name('json.wob_mse');
+    Route::get('/json/mse/wob/{well_id}/{number}','AjaxController@graphMseWobAjax')->name('json.wob_mse');
     Route::get('/json/rop/wob/{well_id}','AjaxController@graphRopWobAjax')->name('json.rop_wob');
     Route::get('/json/ideal/mse/{well_id}','AjaxController@idealMseAjax')->name('json.ideal_mse');
     Route::get('/json/ideal/wob/{well_id}','AjaxController@idealWobAjax')->name('json.ideal_wob');

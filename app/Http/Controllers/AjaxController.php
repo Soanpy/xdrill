@@ -233,12 +233,12 @@ class AjaxController extends Controller
         }       
     }
     
-    public function graphMseWobAjax($well_id){
-
+    public function graphMseWobAjax($well_id, $number){
         try{
             $rows = array();
-            $well = Well::find($well_id);
+            $well = Well::find(intval($well_id));
             $resposta = array();
+            $count = 0;
             foreach($well->datas as $data){
                 $dado = [];
                 if(
@@ -248,8 +248,9 @@ class AjaxController extends Controller
                     !$data->wob ||
                     !$data->tflo
                 ){
+                    $count++;
                     continue;
-                }else{
+                }elseif($count == intval($number)){
                     $dado['depth'] = $data->depth;
                     $dado['rop'] = $data->rop;
                     $dado['rpm'] = $data->rpm;                
@@ -261,6 +262,12 @@ class AjaxController extends Controller
                     $dados[] = $data->wob;
                     $dados[] = $data->mse;
                     $resposta[] = $dados;
+
+                    // if(count($resposta) == $number+1){
+                    // }
+                    break;
+                }else{
+                    $count++;
                 }
 
                 

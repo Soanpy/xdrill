@@ -499,105 +499,105 @@
         // use configuration item and data specified to show chart
         myChart.setOption(option);
       });
-      $.get("{{route('json.wob_mse', ['well_id' => $well->id])}}", function(data) {
-        var element = document.getElementById('loader1');
-        element.parentNode.removeChild(element);
-        // based on prepared DOM, initialize echarts instance
-        var myChart = echarts.init(document.getElementById('primary1'));
+    //   $.get("{{route('json.wob_mse', ['well_id' => $well->id, 'number' => 0])}}", function(data) {
+    //     var element = document.getElementById('loader1');
+    //     element.parentNode.removeChild(element);
+    //     // based on prepared DOM, initialize echarts instance
+    //     var myChart = echarts.init(document.getElementById('primary1'));
 
-        // based on prepared DOM, initialize echarts instance
-        var myRegression = ecStat.regression('polynomial', data, 2);
+    //     // based on prepared DOM, initialize echarts instance
+    //     var myRegression = ecStat.regression('polynomial', data, 2);
 
-        myRegression.points.sort(function(a, b) {
-            return a[0] - b[0];
-        });
+    //     myRegression.points.sort(function(a, b) {
+    //         return a[0] - b[0];
+    //     });
 
-        option = {
+    //     option = {
 
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross'
-                }
-            },
-            title: {
-                text: 'WOB x MSE graph',
-                subtext: 'By ecStat.regression',
-                sublink: 'https://github.com/ecomfe/echarts-stat',
-                left: 'center',
-                top: 16
-            },
-            xAxis: {
-                type: 'value',
-                name: 'WOB, lbf',
-                min: 10,
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed'
-                    }
-                },
-                splitNumber: 20
-            },
-            yAxis: {
-                type: 'value',
-                name: 'MSE, psi',
-                // min: -40,
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed'
-                    }
-                }
-            },
-            grid: {
-                top: 90
-            },
-            series: [{
-                name: 'scatter',
-                type: 'scatter',
-                label: {
-                    emphasis: {
-                        show: true,
-                        position: 'right',
-                        textStyle: {
-                            color: 'blue',
-                            fontSize: 16
-                        }
-                    }
-                },
-                data: data
-            }, {
-                name: 'line',
-                type: 'line',
-                smooth: true,
-                showSymbol: false,
-                data: myRegression.points,
-                markPoint: {
-                    itemStyle: {
-                        normal: {
-                            color: 'transparent'
-                        }
-                    },
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'left',
-                            formatter: myRegression.expression,
-                            textStyle: {
-                                color: '#000',
-                                fontSize: 20
-                            }
-                        }
-                    },
-                    data: [{
-                        coord: myRegression.points[myRegression.points.length - 1]
-                    }]
-                }
-            }]
-        };
+    //         tooltip: {
+    //             trigger: 'axis',
+    //             axisPointer: {
+    //                 type: 'cross'
+    //             }
+    //         },
+    //         title: {
+    //             text: 'WOB x MSE graph',
+    //             subtext: 'By ecStat.regression',
+    //             sublink: 'https://github.com/ecomfe/echarts-stat',
+    //             left: 'center',
+    //             top: 16
+    //         },
+    //         xAxis: {
+    //             type: 'value',
+    //             name: 'WOB, lbf',
+    //             min: 10,
+    //             splitLine: {
+    //                 lineStyle: {
+    //                     type: 'dashed'
+    //                 }
+    //             },
+    //             splitNumber: 20
+    //         },
+    //         yAxis: {
+    //             type: 'value',
+    //             name: 'MSE, psi',
+    //             // min: -40,
+    //             splitLine: {
+    //                 lineStyle: {
+    //                     type: 'dashed'
+    //                 }
+    //             }
+    //         },
+    //         grid: {
+    //             top: 90
+    //         },
+    //         series: [{
+    //             name: 'scatter',
+    //             type: 'scatter',
+    //             label: {
+    //                 emphasis: {
+    //                     show: true,
+    //                     position: 'right',
+    //                     textStyle: {
+    //                         color: 'blue',
+    //                         fontSize: 16
+    //                     }
+    //                 }
+    //             },
+    //             data: data
+    //         }, {
+    //             name: 'line',
+    //             type: 'line',
+    //             smooth: true,
+    //             showSymbol: false,
+    //             data: myRegression.points,
+    //             markPoint: {
+    //                 itemStyle: {
+    //                     normal: {
+    //                         color: 'transparent'
+    //                     }
+    //                 },
+    //                 label: {
+    //                     normal: {
+    //                         show: true,
+    //                         position: 'left',
+    //                         formatter: myRegression.expression,
+    //                         textStyle: {
+    //                             color: '#000',
+    //                             fontSize: 20
+    //                         }
+    //                     }
+    //                 },
+    //                 data: [{
+    //                     coord: myRegression.points[myRegression.points.length - 1]
+    //                 }]
+    //             }
+    //         }]
+    //     };
 
-        // use configuration item and data specified to show chart
-        myChart.setOption(option);
-      });
+    //     // use configuration item and data specified to show chart
+    //     myChart.setOption(option);
+    //   });
       $.get("{{route('json.rop_wob', ['well_id' => $well->id])}}", function(data) {
         var element = document.getElementById('loader2');
         element.parentNode.removeChild(element);
@@ -905,6 +905,27 @@
   });
 </script>
 <script type="text/javascript">
+    function addData(number, data){
+            // console.log(number)
+            var queryString = window.location.href.split('/');
+            var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+            console.log(route)
+            // console.log(queryString[queryString.length-1])
+            // console.log(data)
+            $.ajax({
+                type: "GET",
+                // data: {well_id: , number: number},
+                url: route,
+                success: (new_data) => {
+                    // console.log(new_data)
+                    return data.push(new_data);
+                }
+            });
+
+            // $.get("{{route('json.wob_mse', ['well_id' => $well->id, 'number' => 'number'])}}", function(new_data) use (data) {
+            //     return data = new_data;
+            // }
+    }
   $('#mseWOB').on('click', function(e){
     $('#graphs_div').empty();
     $('#graphs_div').removeClass('nao-aparecer');
@@ -912,8 +933,9 @@
                     '<div id="loader1" class="loader" style="margin: 15px"></div>'+
                     '</div>'
                     );
-      $.get("{{route('json.wob_mse', ['well_id' => $well->id])}}", function(data) {
-        console.log(data);
+      $.get("{{route('json.wob_mse', ['well_id' => $well->id, 'number' => 0])}}", function(data) {
+        // console.log(data);
+        var number = 0;
         var element = document.getElementById('loader1');
         element.parentNode.removeChild(element);
 
@@ -964,48 +986,51 @@
             grid: {
                 top: 90
             },
-            series: [{
-                name: 'scatter',
-                type: 'scatter',
-                label: {
-                    emphasis: {
-                        show: true,
-                        position: 'right',
-                        textStyle: {
-                            color: 'blue',
-                            fontSize: 16
-                        }
-                    }
-                },
-                data: data
-            }, {
-                name: 'line',
-                type: 'line',
-                smooth: true,
-                showSymbol: false,
-                data: myRegression.points,
-                markPoint: {
-                    itemStyle: {
-                        normal: {
-                            color: 'transparent'
-                        }
-                    },
+            series: [
+                {
+                    name: 'scatter',
+                    type: 'scatter',
                     label: {
-                        normal: {
+                        emphasis: {
                             show: true,
-                            position: 'left',
-                            formatter: myRegression.expression,
+                            position: 'right',
                             textStyle: {
-                                color: '#333',
-                                fontSize: 14
+                                color: 'blue',
+                                fontSize: 16
                             }
                         }
                     },
-                    data: [{
-                        coord: myRegression.points[myRegression.points.length - 1]
-                    }]
+                    data: []
+                },
+                {
+                    name: 'line',
+                    type: 'line',
+                    smooth: true,
+                    showSymbol: false,
+                    data: myRegression.points,
+                    markPoint: {
+                        itemStyle: {
+                            normal: {
+                                color: 'transparent'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'left',
+                                formatter: myRegression.expression,
+                                textStyle: {
+                                    color: '#333',
+                                    fontSize: 14
+                                }
+                            }
+                        },
+                        data: [{
+                            coord: myRegression.points[myRegression.points.length - 1]
+                        }]
+                    }
                 }
-            }]
+            ]
         };
 
         // // specify chart configuration item and data
@@ -1036,6 +1061,59 @@
 
         // // use configuration item and data specified to show chart
         myChart.setOption(option);
+        // console.log(data)
+        setInterval(() => {
+            // console.log(this.data)
+            var value = addData(number, data);
+            number++;
+            myChart.setOption({
+                series: [
+                    {
+                        name: 'scatter',
+                        type: 'scatter',
+                        label: {
+                            emphasis: {
+                                show: true,
+                                position: 'right',
+                                textStyle: {
+                                    color: 'blue',
+                                    fontSize: 16
+                                }
+                            }
+                        },
+                        data: data
+                    },
+                    {
+                        name: 'line',
+                        type: 'line',
+                        smooth: true,
+                        showSymbol: false,
+                        data: myRegression.points,
+                        markPoint: {
+                            itemStyle: {
+                                normal: {
+                                    color: 'transparent'
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'left',
+                                    formatter: myRegression.expression,
+                                    textStyle: {
+                                        color: '#333',
+                                        fontSize: 14
+                                    }
+                                }
+                            },
+                            data: [{
+                                coord: myRegression.points[myRegression.points.length - 1]
+                            }]
+                        }
+                    }
+                ]
+            });
+        }, 2500);
       });
   });
 </script>
