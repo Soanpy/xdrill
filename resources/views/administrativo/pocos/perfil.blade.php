@@ -374,8 +374,8 @@
     function addData1(number, data){
         // console.log(number)
         var queryString = window.location.href.split('/');
-        var route = 'http://localhost:8000/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
-        // var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+        // var route = 'http://localhost:8000/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+        var route = 'http://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
         $.ajax({
             type: "GET",
             // data: {well_id: , number: number},
@@ -395,8 +395,8 @@
     function addData2(number, data){
         // console.log(number)
         var queryString = window.location.href.split('/');
-        var route = 'http://localhost:8000/system/json/rop/wob/'+queryString[queryString.length-1]+'/'+number;
-        // var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+        // var route = 'http://localhost:8000/system/json/rop/wob/'+queryString[queryString.length-1]+'/'+number;
+        var route = 'http://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
         // console.log(data)
         // console.log(queryString[queryString.length-1])
         // console.log(data)
@@ -1087,8 +1087,8 @@
     function addDataWobMSE(number, data){
             // console.log(number)
             var queryString = window.location.href.split('/');
-            var route = 'http://localhost:8000/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
-            // var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+            // var route = 'http://localhost:8000/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+            var route = 'http://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
             // console.log(data)
             // console.log(queryString[queryString.length-1])
             // console.log(data)
@@ -1316,8 +1316,8 @@
     function addData(number, data){
         // console.log(number)
         var queryString = window.location.href.split('/');
-        var route = 'http://localhost:8000/system/json/rop/wob/'+queryString[queryString.length-1]+'/'+number;
-        // var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+        // var route = 'http://localhost:8000/system/json/rop/wob/'+queryString[queryString.length-1]+'/'+number;
+        var route = 'http://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
         // console.log(data)
         // console.log(queryString[queryString.length-1])
         // console.log(data)
