@@ -908,8 +908,9 @@
     function addData(number, data){
             // console.log(number)
             var queryString = window.location.href.split('/');
-            var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
-            console.log(route)
+            var route = 'http://localhost:8000/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+            // var route = 'https://xdrill.com.br/system/json/mse/wob/'+queryString[queryString.length-1]+'/'+number;
+            // console.log(data)
             // console.log(queryString[queryString.length-1])
             // console.log(data)
             $.ajax({
@@ -917,8 +918,13 @@
                 // data: {well_id: , number: number},
                 url: route,
                 success: (new_data) => {
-                    // console.log(new_data)
-                    return data.push(new_data);
+                    console.log(new_data)
+                    if(typeof new_data !== 'undefined'){
+                        return data.push(new_data[0]);
+                    }else{
+                        return false;
+                    }
+
                 }
             });
 
@@ -1066,54 +1072,64 @@
             // console.log(this.data)
             var value = addData(number, data);
             number++;
-            myChart.setOption({
-                series: [
-                    {
-                        name: 'scatter',
-                        type: 'scatter',
-                        label: {
-                            emphasis: {
-                                show: true,
-                                position: 'right',
-                                textStyle: {
-                                    color: 'blue',
-                                    fontSize: 16
-                                }
-                            }
-                        },
-                        data: data
-                    },
-                    {
-                        name: 'line',
-                        type: 'line',
-                        smooth: true,
-                        showSymbol: false,
-                        data: myRegression.points,
-                        markPoint: {
-                            itemStyle: {
-                                normal: {
-                                    color: 'transparent'
-                                }
-                            },
+            if(value == false){
+
+            }else{
+                var myRegression = ecStat.regression('polynomial', data, 2);
+
+                myRegression.points.sort(function(a, b) {
+                    return a[0] - b[0];
+                });
+
+                myChart.setOption({
+                    series: [
+                        {
+                            name: 'scatter',
+                            type: 'scatter',
                             label: {
-                                normal: {
+                                emphasis: {
                                     show: true,
-                                    position: 'left',
-                                    formatter: myRegression.expression,
+                                    position: 'right',
                                     textStyle: {
-                                        color: '#333',
-                                        fontSize: 14
+                                        color: 'blue',
+                                        fontSize: 16
                                     }
                                 }
                             },
-                            data: [{
-                                coord: myRegression.points[myRegression.points.length - 1]
-                            }]
+                            data: data
+                        },
+                        {
+                            name: 'line',
+                            type: 'line',
+                            smooth: true,
+                            showSymbol: false,
+                            data: myRegression.points,
+                            markPoint: {
+                                itemStyle: {
+                                    normal: {
+                                        color: 'transparent'
+                                    }
+                                },
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'left',
+                                        formatter: myRegression.expression,
+                                        textStyle: {
+                                            color: '#333',
+                                            fontSize: 14
+                                        }
+                                    }
+                                },
+                                data: [{
+                                    coord: myRegression.points[myRegression.points.length - 1]
+                                }]
+                            }
                         }
-                    }
-                ]
-            });
-        }, 2500);
+                    ]
+                });
+            }
+        }, 1000);
       });
   });
 </script>

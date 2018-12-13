@@ -239,6 +239,7 @@ class AjaxController extends Controller
             $well = Well::find(intval($well_id));
             $resposta = array();
             $count = 0;
+            $new_number = intval($number);
             foreach($well->datas as $data){
                 $dado = [];
                 if(
@@ -249,27 +250,29 @@ class AjaxController extends Controller
                     !$data->tflo
                 ){
                     $count++;
+                    $new_number++;
                     continue;
-                }elseif($count == intval($number)){
-                    $dado['depth'] = $data->depth;
-                    $dado['rop'] = $data->rop;
-                    $dado['rpm'] = $data->rpm;                
-                    $dado['wob'] = $data->wob; 
-                    $dado['tflo'] = $data->tflo; 
-                    $rows[] = $dado;
-
-                    $dados = array();
-                    $dados[] = $data->wob;
-                    $dados[] = $data->mse;
-                    $resposta[] = $dados;
-
-                    // if(count($resposta) == $number+1){
-                    // }
-                    break;
                 }else{
-                    $count++;
-                }
+                    if($count == $new_number){
+                        $dado['depth'] = $data->depth;
+                        $dado['rop'] = $data->rop;
+                        $dado['rpm'] = $data->rpm;                
+                        $dado['wob'] = $data->wob; 
+                        $dado['tflo'] = $data->tflo; 
+                        $rows[] = $dado;
 
+                        $dados = array();
+                        $dados[] = $data->wob;
+                        $dados[] = $data->mse;
+                        $resposta[] = $dados;
+
+                        // if(count($resposta) == $number+1){
+                        // }
+                        break;
+                    }else{
+                        $count++;
+                    }
+                }
                 
             }
             
