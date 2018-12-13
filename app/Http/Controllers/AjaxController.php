@@ -173,12 +173,14 @@ class AjaxController extends Controller
             return response()->json(['message' => $e], 500);
         }       
     }
-    public function graphRopWobAjax($well_id){
+    public function graphRopWobAjax($well_id, $number){
 
         try{
             $rows = array();
-            $well = Well::find($well_id);
+            $well = Well::find(intval($well_id));
             $resposta = array();
+            $count = 0;
+            $new_number = floatval($number);
             foreach($well->datas as $data){
                 $dado = [];
                 if(
@@ -188,19 +190,29 @@ class AjaxController extends Controller
                     !$data->wob ||
                     !$data->tflo
                 ){
+                    $count++;
+                    $new_number++;
                     continue;
                 }else{
-                    $dado['depth'] = $data->depth;
-                    $dado['rop'] = $data->rop;
-                    $dado['rpm'] = $data->rpm;                
-                    $dado['wob'] = $data->wob; 
-                    $dado['tflo'] = $data->tflo; 
-                    $rows[] = $dado;
+                    if($count == $new_number){
+                        $dado['depth'] = $data->depth;
+                        $dado['rop'] = $data->rop;
+                        $dado['rpm'] = $data->rpm;                
+                        $dado['wob'] = $data->wob; 
+                        $dado['tflo'] = $data->tflo; 
+                        $rows[] = $dado;
 
-                    $dados = array();
-                    $dados[] = $data->wob;
-                    $dados[] = $data->rop;
-                    $resposta[] = $dados;
+                        $dados = array();
+                        $dados[] = $data->wob;
+                        $dados[] = $data->rop;
+                        $resposta[] = $dados;
+
+                        // if(count($resposta) == $number+1){
+                        // }
+                        break;
+                    }else{
+                        $count++;
+                    }
                 }
                 
             }
@@ -239,7 +251,7 @@ class AjaxController extends Controller
             $well = Well::find(intval($well_id));
             $resposta = array();
             $count = 0;
-            $new_number = intval($number);
+            $new_number = floatval($number);
             foreach($well->datas as $data){
                 $dado = [];
                 if(
